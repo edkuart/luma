@@ -41,6 +41,7 @@ export function PublicHeader() {
   }, [open]);
 
   return (
+    <>
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-background/72 backdrop-blur-xl">
       <Container as="nav" className="flex h-16 items-center justify-between">
         <Link
@@ -102,6 +103,7 @@ export function PublicHeader() {
           </button>
         </div>
       </Container>
+    </header>
 
       {/* Menu movil: overlay a pantalla completa */}
       <div
@@ -110,7 +112,7 @@ export function PublicHeader() {
         aria-modal="true"
         aria-label="Navegacion"
         hidden={!open}
-        className="fixed inset-0 z-50 md:hidden"
+        className="fixed inset-0 z-[60] md:hidden"
       >
         <button
           type="button"
@@ -119,7 +121,7 @@ export function PublicHeader() {
           onClick={() => setOpen(false)}
           className="absolute inset-0 h-full w-full bg-background/80 backdrop-blur-sm"
         />
-        <div className="absolute inset-x-0 top-0 flex h-full flex-col bg-background px-5 pb-10 pt-5 sm:px-8">
+        <div className="absolute inset-0 flex flex-col bg-background px-5 pb-10 pt-5 sm:px-8">
           <div className="flex items-center justify-between">
             <span className="text-sm font-semibold uppercase tracking-[0.28em] text-foreground">
               Luma Studio
@@ -176,6 +178,6 @@ export function PublicHeader() {
           </Link>
         </div>
       </div>
-    </header>
+    </>
   );
 }
