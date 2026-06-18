@@ -1,0 +1,100 @@
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { MediaGrid } from "@/components/public/media-grid";
+import { albums, getAlbumBySlug } from "@/lib/demo/content";
+
+type AlbumDetailPageProps = {
+  params: Promise<{ slug: string }>;
+};
+
+export function generateStaticParams() {
+  return albums.map((album) => ({ slug: album.slug }));
+}
+
+export async function generateMetadata({ params }: AlbumDetailPageProps) {
+  const { slug } = await params;
+  const album = getAlbumBySlug(slug);
+
+  if (!album) {
+    return { title: "Album no encontrado" };
+  }
+
+  return {
+    title: album.title,
+    description: album.summary,
+  };
+}
+
+export default async function AlbumDetailPage({ params }: AlbumDetailPageProps) {
+  const { slug } = await params;
+  const album = getAlbumBySlug(slug);
+
+  if (!album) {
+    notFound();
+  }
+
+  const currentIndex = albums.findIndex((item) => item.id === album.id);
+  const previous = albums[currentIndex - 1];
+  const next = albums[currentIndex + 1];
+
+  return (
+    <main>
+      <section className="relative flex min-h-[72vh] items-end overflow-hidden px-5 pb-14 pt-28 sm:px-8">
+        <Image
+          src={album.imageUrl}
+          alt={album.imageAlt}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-background/10" />
+        <div className="relative z-10 mx-auto w-full max-w-7xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-amber">
+            {album.imageCount} imagenes / {album.year}
+          </p>
+          <h1 className="mt-5 max-w-4xl text-balance text-5xl font-semibold leading-none sm:text-7xl">
+            {album.title}
+          </h1>
+          <p className="mt-6 max-w-2xl text-lg leading-8 text-muted">
+            {album.description}
+          </p>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+        <div className="mb-8 flex flex-wrap gap-2">
+          {album.tags.map((tag) => (
+            <span
+              key={tag}
+              className="rounded-full border border-white/15 px-3 py-1 text-xs text-cyan"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+        <MediaGrid items={album.gallery} />
+      </section>
+
+      <section className="mx-auto flex max-w-7xl flex-col gap-4 px-5 pb-20 sm:px-8 md:flex-row md:justify-between">
+        {previous ? (
+          <Link href={`/albumes/${previous.slug}`} className="text-cyan">
+            Album anterior: {previous.title}
+          </Link>
+        ) : (
+          <span />
+        )}
+        {next ? (
+          <Link href={`/albumes/${next.slug}`} className="text-cyan">
+            Album siguiente: {next.title}
+          </Link>
+        ) : (
+          <Link href="/albumes" className="text-cyan">
+            Volver a albumes
+          </Link>
+        )}
+      </section>
+    </main>
+  );
+}

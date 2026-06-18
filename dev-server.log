@@ -1,0 +1,17 @@
+
+> luma@0.1.0 dev
+> next dev --hostname 127.0.0.1 --port 3000
+
+▲ Next.js 16.2.9 (Turbopack)
+- Local:         http://127.0.0.1:3000
+- Network:       http://127.0.0.1:3000
+- Environments: .env.local
+✓ Ready in 1240ms
+Creating turbopack project { dir: 'C:\\Users\\Dell\\Projects\\luma', testMode: true }
+
+Attention: Clerk collects telemetry data from its SDKs when connected to development instances.
+The data collected is used to inform Clerk's product roadmap.
+To learn more, including how to opt-out from the telemetry program, visit: https://clerk.com/docs/telemetry.
+
+ GET / 200 in 1202ms (next.js: 460ms, application-code: 743ms)
+✓ Compiled in 911ms
