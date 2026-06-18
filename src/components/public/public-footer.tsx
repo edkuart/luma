@@ -1,7 +1,9 @@
+import { Container } from "@/components/ui/container";
+
 export function PublicFooter() {
   return (
-    <footer className="border-t border-border bg-background px-5 py-10 sm:px-8">
-      <div className="mx-auto flex max-w-7xl flex-col gap-5 text-sm text-muted md:flex-row md:items-center md:justify-between">
+    <footer className="border-t border-border bg-background py-10">
+      <Container className="flex flex-col gap-5 text-sm text-muted md:flex-row md:items-center md:justify-between">
         <div>
           <p className="font-semibold uppercase tracking-[0.28em] text-foreground">
             Luma Studio
@@ -15,7 +17,7 @@ export function PublicFooter() {
           <span>Vimeo</span>
           <span>2026</span>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 }

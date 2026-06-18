@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PageHero } from "@/components/public/page-hero";
+import { Container } from "@/components/ui/container";
 
 export const metadata = {
   title: "Contacto",
@@ -14,7 +15,7 @@ export default function ContactPage() {
         title="Colaboraciones, exhibiciones y proyectos visuales."
         description="Primera version de contacto con canales directos. El formulario real puede entrar cuando conectemos backend y proteccion anti-spam."
       />
-      <section className="mx-auto grid max-w-7xl gap-6 px-5 pb-20 sm:px-8 lg:grid-cols-3">
+      <Container as="section" className="grid gap-6 pb-20 lg:grid-cols-3">
         <div className="rounded-lg border border-border bg-surface p-6 lg:col-span-2">
           <p className="text-sm uppercase tracking-[0.28em] text-fuchsia">
             Escribenos
@@ -41,7 +42,7 @@ export default function ContactPage() {
             <span>YouTube</span>
           </div>
         </div>
-      </section>
+      </Container>
     </main>
   );
 }

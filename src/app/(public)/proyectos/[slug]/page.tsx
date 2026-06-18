@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MediaGrid } from "@/components/public/media-grid";
+import { Container } from "@/components/ui/container";
 import { getProjectBySlug, kindLabels, projects } from "@/lib/demo/content";
 
 type ProjectDetailPageProps = {
@@ -56,13 +57,13 @@ export default async function ProjectDetailPage({
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-cyan">
             {kindLabels[project.kind]} / {project.year}
           </p>
-          <h1 className="mt-5 max-w-4xl text-balance text-5xl font-semibold leading-none sm:text-7xl">
+          <h1 className="mt-5 max-w-4xl text-balance text-4xl font-semibold leading-none sm:text-7xl">
             {project.title}
           </h1>
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-7xl gap-10 px-5 py-16 sm:px-8 lg:grid-cols-[1.2fr_0.8fr]">
+      <Container as="section" className="grid gap-10 py-16 lg:grid-cols-[1.2fr_0.8fr]">
         <div>
           <p className="text-2xl leading-10 text-foreground">
             {project.summary}
@@ -96,9 +97,9 @@ export default async function ProjectDetailPage({
             </dd>
           </div>
         </dl>
-      </section>
+      </Container>
 
-      <section className="mx-auto max-w-7xl px-5 pb-20 sm:px-8">
+      <Container as="section" className="pb-20">
         <div className="mb-8 flex items-end justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-fuchsia">
@@ -108,11 +109,11 @@ export default async function ProjectDetailPage({
           </div>
         </div>
         <MediaGrid items={project.gallery} />
-      </section>
+      </Container>
 
       {project.videoUrl ? (
-        <section className="border-y border-border bg-surface px-5 py-16 sm:px-8">
-          <div className="mx-auto max-w-7xl">
+        <section className="border-y border-border bg-surface py-16">
+          <Container>
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-acid">
               Video
             </p>
@@ -127,11 +128,11 @@ export default async function ProjectDetailPage({
             >
               Abrir referencia
             </Link>
-          </div>
+          </Container>
         </section>
       ) : null}
 
-      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+      <Container as="section" className="py-16">
         <Link href="/proyectos" className="text-sm font-semibold text-cyan">
           Volver a proyectos
         </Link>
@@ -151,7 +152,7 @@ export default async function ProjectDetailPage({
             ))}
           </div>
         ) : null}
-      </section>
+      </Container>
     </main>
   );
 }

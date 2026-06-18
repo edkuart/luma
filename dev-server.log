@@ -15,3 +15,327 @@ To learn more, including how to opt-out from the telemetry program, visit: https
 
  GET / 200 in 1202ms (next.js: 460ms, application-code: 743ms)
 ✓ Compiled in 911ms
+[browser] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview (https://ample-crayfish-1.clerk.accounts.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js:12:6092)
+ GET / 200 in 472ms (next.js: 321ms, application-code: 151ms)
+✓ Compiled in 2.4s
+ GET / 200 in 152ms (next.js: 24ms, application-code: 128ms)
+ GET / 200 in 1469ms (next.js: 752ms, application-code: 717ms)
+ GET / 200 in 1451ms (next.js: 516ms, application-code: 934ms)
+✓ Compiled in 114ms
+ GET / 200 in 397ms (next.js: 217ms, application-code: 179ms)
+ GET / 200 in 63ms (next.js: 5ms, application-code: 59ms)
+⨯ ./src/components/public/public-footer.tsx:20:13
+Expected '</', got 'jsx text'
+  [90m18 |[0m           <span>[35m2026[0m</span>
+  [90m19 |[0m         </div>
+[31m[1m>[0m [90m20 |[0m       </div>
+  [90m   |[0m             [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[31m[1m>[0m [90m21 |[0m     </footer>
+  [90m   |[0m [31m[1m^^^^[0m
+  [90m22 |[0m   );
+  [90m23 |[0m }
+  [90m24 |[0m
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./src/components/public/public-footer.tsx
+    ./src/app/(public)/layout.tsx
+
+
+ GET / 500 in 2.3s (next.js: 2.0s, application-code: 319ms)
+⨯ ./src/components/public/public-footer.tsx:20:13
+Expected '</', got 'jsx text'
+  [90m18 |[0m           <span>[35m2026[0m</span>
+  [90m19 |[0m         </div>
+[31m[1m>[0m [90m20 |[0m       </div>
+  [90m   |[0m             [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[31m[1m>[0m [90m21 |[0m     </footer>
+  [90m   |[0m [31m[1m^^^^[0m
+  [90m22 |[0m   );
+  [90m23 |[0m }
+  [90m24 |[0m
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./src/components/public/public-footer.tsx
+    ./src/app/(public)/layout.tsx
+
+
+ GET / 500 in 26ms (next.js: 11ms, application-code: 14ms)
+[browser] Uncaught Error: ./src/components/public/public-footer.tsx:20:13
+Expected '</', got 'jsx text'
+  18 |           <span>2026</span>
+  19 |         </div>
+> 20 |       </div>
+     |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 21 |     </footer>
+     | ^^^^
+  22 |   );
+  23 | }
+  24 |
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./src/components/public/public-footer.tsx
+    ./src/app/(public)/layout.tsx
+
+
+    at <unknown> (Error: ./src/components/public/public-footer.tsx:20:13)
+    at <unknown> (Error: (./src/components/public/public-footer.tsx:20:13)
+✓ Compiled in 128ms
+ GET / 200 in 166ms (next.js: 7ms, application-code: 159ms)
+✓ Compiled in 310ms
+ GET / 200 in 568ms (next.js: 174ms, application-code: 394ms)
+ GET / 200 in 269ms (next.js: 6ms, application-code: 263ms)
+ GET / 200 in 207ms (next.js: 6ms, application-code: 201ms)
+ GET / 200 in 206ms (next.js: 75ms, application-code: 131ms)
+✓ Compiled in 121ms
+ GET / 200 in 483ms (next.js: 286ms, application-code: 196ms)
+ GET / 200 in 60ms (next.js: 6ms, application-code: 54ms)
+✓ Compiled in 108ms
+ GET / 200 in 430ms (next.js: 174ms, application-code: 256ms)
+ GET / 200 in 94ms (next.js: 5ms, application-code: 89ms)
+⨯ ./src/app/(public)/page.tsx:90:7
+Expected '</', got ')'
+  [90m88 |[0m         </div>
+  [90m89 |[0m       </section>
+[31m[1m>[0m [90m90 |[0m       ) : [36mnull[0m}
+  [90m   |[0m       [31m[1m^[0m
+  [90m91 |[0m
+  [90m92 |[0m       {albumSection ? (
+  [90m93 |[0m       <section className=[32m"border-y border-border bg-surface px-5 py-20 sm:px-8"[0m>
+
+Parsing ecmascript source code failed
+
+
+ GET / 500 in 89ms (next.js: 65ms, application-code: 24ms)
+⨯ ./src/app/(public)/page.tsx:90:7
+Expected '</', got ')'
+  [90m88 |[0m         </div>
+  [90m89 |[0m       </section>
+[31m[1m>[0m [90m90 |[0m       ) : [36mnull[0m}
+  [90m   |[0m       [31m[1m^[0m
+  [90m91 |[0m
+  [90m92 |[0m       {albumSection ? (
+  [90m93 |[0m       <section className=[32m"border-y border-border bg-surface px-5 py-20 sm:px-8"[0m>
+
+Parsing ecmascript source code failed
+
+
+ GET / 500 in 44ms (next.js: 29ms, application-code: 15ms)
+[browser] Uncaught Error: ./src/app/(public)/page.tsx:90:7
+Expected '</', got ')'
+  88 |         </div>
+  89 |       </section>
+> 90 |       ) : null}
+     |       ^
+  91 |
+  92 |       {albumSection ? (
+  93 |       <section className="border-y border-border bg-surface px-5 py-20 sm:px-8">
+
+Parsing ecmascript source code failed
+
+
+    at <unknown> (Error: ./src/app/(public)/page.tsx:90:7)
+    at <unknown> (Error: (./src/app/(public)/page.tsx:90:7)
+⨯ ./src/app/(public)/page.tsx:124:15
+Expected '</', got 'jsx text'
+  [90m122 |[0m             </[33mLink[0m>
+  [90m123 |[0m           </div>
+[31m[1m>[0m [90m124 |[0m         </div>
+  [90m    |[0m               [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[31m[1m>[0m [90m125 |[0m       </section>
+  [90m    |[0m [31m[1m^^^^^^[0m
+  [90m126 |[0m       ) : [36mnull[0m}
+  [90m127 |[0m
+  [90m128 |[0m       {shortSection ? (
+
+Parsing ecmascript source code failed
+
+
+ GET / 500 in 74ms (next.js: 60ms, application-code: 14ms)
+[browser] Uncaught Error: ./src/app/(public)/page.tsx:124:15
+Expected '</', got 'jsx text'
+  122 |             </Link>
+  123 |           </div>
+> 124 |         </div>
+      |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 125 |       </section>
+      | ^^^^^^
+  126 |       ) : null}
+  127 |
+  128 |       {shortSection ? (
+
+Parsing ecmascript source code failed
+
+
+    at <unknown> (Error: ./src/app/(public)/page.tsx:124:15)
+    at <unknown> (Error: (./src/app/(public)/page.tsx:124:15)
+⨯ ./src/app/(public)/page.tsx:161:7
+Expected '</', got ')'
+  [90m159 |[0m         </div>
+  [90m160 |[0m       </section>
+[31m[1m>[0m [90m161 |[0m       ) : [36mnull[0m}
+  [90m    |[0m       [31m[1m^[0m
+  [90m162 |[0m
+  [90m163 |[0m       {artistNoteSection ? (
+  [90m164 |[0m         <section className=[32m"border-t border-border px-5 py-16 sm:px-8"[0m>
+
+Parsing ecmascript source code failed
+
+
+ GET / 500 in 70ms (next.js: 55ms, application-code: 15ms)
+[browser] Uncaught Error: ./src/app/(public)/page.tsx:161:7
+Expected '</', got ')'
+  159 |         </div>
+  160 |       </section>
+> 161 |       ) : null}
+      |       ^
+  162 |
+  163 |       {artistNoteSection ? (
+  164 |         <section className="border-t border-border px-5 py-16 sm:px-8">
+
+Parsing ecmascript source code failed
+
+
+    at <unknown> (Error: ./src/app/(public)/page.tsx:161:7)
+    at <unknown> (Error: (./src/app/(public)/page.tsx:161:7)
+⨯ ./src/app/(public)/page.tsx:179:17
+Expected '</', got 'jsx text'
+  [90m177 |[0m               ella fija selecciones manuales, la home respeta esas decisiones.
+  [90m178 |[0m             </p>
+[31m[1m>[0m [90m179 |[0m           </div>
+  [90m    |[0m                 [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[31m[1m>[0m [90m180 |[0m         </section>
+  [90m    |[0m [31m[1m^^^^^^^^[0m
+  [90m181 |[0m       ) : [36mnull[0m}
+  [90m182 |[0m     </main>
+  [90m183 |[0m   );
+
+Parsing ecmascript source code failed
+
+
+ GET / 500 in 65ms (next.js: 54ms, application-code: 11ms)
+[browser] Uncaught Error: ./src/app/(public)/page.tsx:179:17
+Expected '</', got 'jsx text'
+  177 |               ella fija selecciones manuales, la home respeta esas decisiones.
+  178 |             </p>
+> 179 |           </div>
+      |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 180 |         </section>
+      | ^^^^^^^^
+  181 |       ) : null}
+  182 |     </main>
+  183 |   );
+
+Parsing ecmascript source code failed
+
+
+    at <unknown> (Error: ./src/app/(public)/page.tsx:179:17)
+    at <unknown> (Error: (./src/app/(public)/page.tsx:179:17)
+⨯ ./src/app/(public)/page.tsx:182:15
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+  [90m180 |[0m           </div>
+  [90m181 |[0m         </section>
+[31m[1m>[0m [90m182 |[0m       ) : [36mnull[0m}
+  [90m    |[0m               [31m[1m^[0m
+  [90m183 |[0m     </main>
+  [90m184 |[0m   );
+  [90m185 |[0m }
+
+Parsing ecmascript source code failed
+
+
+ GET / 500 in 65ms (next.js: 52ms, application-code: 13ms)
+[browser] Uncaught Error: ./src/app/(public)/page.tsx:182:15
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+  180 |           </div>
+  181 |         </section>
+> 182 |       ) : null}
+      |               ^
+  183 |     </main>
+  184 |   );
+  185 | }
+
+Parsing ecmascript source code failed
+
+
+    at <unknown> (Error: ./src/app/(public)/page.tsx:182:15)
+    at <unknown> (Error: (./src/app/(public)/page.tsx:182:15)
+✓ Compiled in 350ms
+ GET / 200 in 254ms (next.js: 7ms, application-code: 247ms)
+ GET / 200 in 246ms (next.js: 140ms, application-code: 105ms)
+ GET / 200 in 336ms (next.js: 164ms, application-code: 172ms)
+ GET / 200 in 247ms (next.js: 143ms, application-code: 104ms)
+ GET / 200 in 297ms (next.js: 177ms, application-code: 120ms)
+ GET / 200 in 243ms (next.js: 138ms, application-code: 105ms)
+ GET / 200 in 298ms (next.js: 161ms, application-code: 137ms)
+ GET / 200 in 269ms (next.js: 160ms, application-code: 109ms)
+ GET / 200 in 271ms (next.js: 159ms, application-code: 113ms)
+ GET / 200 in 577ms (next.js: 335ms, application-code: 242ms)
+ GET / 200 in 281ms (next.js: 161ms, application-code: 120ms)
+ GET / 200 in 254ms (next.js: 159ms, application-code: 95ms)
+[browser] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview (https://ample-crayfish-1.clerk.accounts.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js:12:6092)
+[browser] ./src/app/(public)/proyectos/page.tsx:46:17
+Expected '</', got 'jsx text'
+  44 |           ))}
+  45 |         </div>
+> 46 |       </section>
+     |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 47 |     </main>
+     | ^^^^
+  48 |   );
+  49 | }
+  50 |
+
+Parsing ecmascript source code failed 
+[browser] ./src/app/(public)/proyectos/page.tsx:46:17
+Expected '</', got 'jsx text'
+  44 |           ))}
+  45 |         </div>
+> 46 |       </section>
+     |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 47 |     </main>
+     | ^^^^
+  48 |   );
+  49 | }
+  50 |
+
+Parsing ecmascript source code failed 
+[browser] ./src/app/(public)/proyectos/page.tsx:46:17
+Expected '</', got 'jsx text'
+  44 |           ))}
+  45 |         </div>
+> 46 |       </section>
+     |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 47 |     </main>
+     | ^^^^
+  48 |   );
+  49 | }
+  50 |
+
+Parsing ecmascript source code failed 
+ GET / 200 in 716ms (next.js: 9ms, application-code: 708ms)
+[browser] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview (https://ample-crayfish-1.clerk.accounts.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js:12:6092)
+✓ Compiled in 183ms
+ GET / 200 in 596ms (next.js: 421ms, application-code: 175ms)
+✓ Compiled in 208ms
+ GET / 200 in 528ms (next.js: 367ms, application-code: 161ms)
+✓ Compiled in 76ms
+ GET / 200 in 390ms (next.js: 209ms, application-code: 181ms)
+ GET /sobre 200 in 703ms (next.js: 544ms, application-code: 159ms)
+ GET /cortos 200 in 340ms (next.js: 273ms, application-code: 66ms)
+ GET /albumes 200 in 153ms (next.js: 100ms, application-code: 53ms)
+ GET /cortos 200 in 57ms (next.js: 12ms, application-code: 46ms)
+ GET /proyectos 200 in 294ms (next.js: 224ms, application-code: 70ms)
+ GET / 200 in 2.0s (next.js: 655ms, application-code: 1352ms)
+ GET / 200 in 3.2s (next.js: 36ms, application-code: 3.2s)
+○ Compiling /contacto ...
+ GET /contacto 200 in 13.1s (next.js: 12.9s, application-code: 180ms)
+ GET / 200 in 129ms (next.js: 33ms, application-code: 96ms)

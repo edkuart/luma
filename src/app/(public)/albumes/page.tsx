@@ -1,5 +1,6 @@
 import { AlbumCard } from "@/components/public/album-card";
 import { PageHero } from "@/components/public/page-hero";
+import { Container } from "@/components/ui/container";
 import { albums } from "@/lib/demo/content";
 
 export const metadata = {
@@ -15,11 +16,11 @@ export default function AlbumsPage() {
         title="Albumes"
         description="Colecciones fotograficas organizadas como recorridos visuales, con portada, narrativa y orden propio."
       />
-      <section className="mx-auto grid max-w-7xl gap-6 px-5 pb-20 sm:px-8">
+      <Container as="section" className="grid gap-6 pb-20">
         {albums.map((album, index) => (
           <AlbumCard key={album.id} album={album} priority={index === 0} />
         ))}
-      </section>
+      </Container>
     </main>
   );
 }

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { PageHero } from "@/components/public/page-hero";
+import { Container } from "@/components/ui/container";
 
 export const metadata = {
   title: "Sobre",
@@ -14,7 +15,7 @@ export default function AboutPage() {
         title="Una practica visual entre fotografia, archivo y movimiento."
         description="Esta pagina sera editable desde settings para que la artista pueda ajustar bio, statement, disciplinas y redes sin tocar codigo."
       />
-      <section className="mx-auto grid max-w-7xl gap-10 px-5 pb-20 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+      <Container as="section" className="grid gap-10 pb-20 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
         <div className="relative min-h-[560px] overflow-hidden rounded-lg border border-white/10">
           <Image
             src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1200&q=82"
@@ -51,7 +52,7 @@ export default function AboutPage() {
             )}
           </div>
         </div>
-      </section>
+      </Container>
     </main>
   );
 }

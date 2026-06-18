@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MediaGrid } from "@/components/public/media-grid";
+import { Container } from "@/components/ui/container";
 import { albums, getAlbumBySlug } from "@/lib/demo/content";
 
 type AlbumDetailPageProps = {
@@ -54,7 +55,7 @@ export default async function AlbumDetailPage({ params }: AlbumDetailPageProps) 
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-amber">
             {album.imageCount} imagenes / {album.year}
           </p>
-          <h1 className="mt-5 max-w-4xl text-balance text-5xl font-semibold leading-none sm:text-7xl">
+          <h1 className="mt-5 max-w-4xl text-balance text-4xl font-semibold leading-none sm:text-7xl">
             {album.title}
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-muted">
@@ -63,7 +64,7 @@ export default async function AlbumDetailPage({ params }: AlbumDetailPageProps) 
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+      <Container as="section" className="py-16">
         <div className="mb-8 flex flex-wrap gap-2">
           {album.tags.map((tag) => (
             <span
@@ -75,9 +76,9 @@ export default async function AlbumDetailPage({ params }: AlbumDetailPageProps) 
           ))}
         </div>
         <MediaGrid items={album.gallery} />
-      </section>
+      </Container>
 
-      <section className="mx-auto flex max-w-7xl flex-col gap-4 px-5 pb-20 sm:px-8 md:flex-row md:justify-between">
+      <Container as="section" className="flex flex-col gap-4 pb-20 md:flex-row md:justify-between">
         {previous ? (
           <Link href={`/albumes/${previous.slug}`} className="text-cyan">
             Album anterior: {previous.title}
@@ -94,7 +95,7 @@ export default async function AlbumDetailPage({ params }: AlbumDetailPageProps) 
             Volver a albumes
           </Link>
         )}
-      </section>
+      </Container>
     </main>
   );
 }

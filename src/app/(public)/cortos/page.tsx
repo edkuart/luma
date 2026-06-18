@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { PageHero } from "@/components/public/page-hero";
+import { Container } from "@/components/ui/container";
 import { shorts } from "@/lib/demo/content";
 
 export const metadata = {
@@ -16,7 +17,7 @@ export default function ShortsPage() {
         title="Cortometrajes"
         description="Piezas audiovisuales, exploraciones narrativas y visuales con poster, sinopsis y metadata."
       />
-      <section className="mx-auto grid max-w-7xl gap-6 px-5 pb-20 sm:px-8">
+      <Container as="section" className="grid gap-6 pb-20">
         {shorts.map((short) => (
           <article
             key={short.id}
@@ -61,7 +62,7 @@ export default function ShortsPage() {
             </div>
           </article>
         ))}
-      </section>
+      </Container>
     </main>
   );
 }

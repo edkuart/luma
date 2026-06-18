@@ -1,5 +1,6 @@
 import { PageHero } from "@/components/public/page-hero";
 import { ProjectCard } from "@/components/public/project-card";
+import { Container } from "@/components/ui/container";
 import { kindLabels, projects } from "@/lib/demo/content";
 
 export const metadata = {
@@ -17,7 +18,7 @@ export default function ProjectsPage() {
         title="Proyectos"
         description="Series fotograficas, piezas audiovisuales y experimentos visuales organizados como archivo vivo."
       />
-      <section className="mx-auto max-w-7xl px-5 pb-20 sm:px-8">
+      <Container as="section" className="pb-20">
         <div className="mb-8 flex gap-3 overflow-x-auto pb-2">
           {filters.map((filter, index) => (
             <span
@@ -42,7 +43,7 @@ export default function ProjectsPage() {
             />
           ))}
         </div>
-      </section>
+      </Container>
     </main>
   );
 }

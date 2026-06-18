@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ProjectCard } from "@/components/public/project-card";
+import { Container } from "@/components/ui/container";
 import { buildHomeCuration, getHomeSection } from "@/lib/content/home-curation";
 
 export default function Home() {
@@ -20,7 +21,7 @@ export default function Home() {
 
   return (
     <main>
-      <section className="relative flex min-h-screen items-end overflow-hidden px-5 pb-16 pt-28 sm:px-8 lg:pb-24">
+      <section className="relative flex min-h-[78vh] items-end overflow-hidden px-5 pb-16 pt-28 sm:min-h-screen sm:px-8 lg:pb-24">
         <Image
           src={heroProject.imageUrl}
           alt={heroProject.imageAlt}
@@ -61,7 +62,7 @@ export default function Home() {
       </section>
 
       {projectSection ? (
-      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8">
+      <Container as="section" className="py-20">
         <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-fuchsia">
@@ -85,12 +86,12 @@ export default function Home() {
             />
           ))}
         </div>
-      </section>
+      </Container>
       ) : null}
 
       {albumSection ? (
-      <section className="border-y border-border bg-surface px-5 py-20 sm:px-8">
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.25fr_0.75fr] lg:items-center">
+      <section className="border-y border-border bg-surface py-20">
+        <Container className="grid gap-8 lg:grid-cols-[1.25fr_0.75fr] lg:items-center">
           <div className="relative min-h-[420px] overflow-hidden rounded-lg">
             <Image
               src={featuredAlbum.imageUrl}
@@ -120,12 +121,12 @@ export default function Home() {
               Explorar album
             </Link>
           </div>
-        </div>
+        </Container>
       </section>
       ) : null}
 
       {shortSection ? (
-      <section className="mx-auto grid max-w-7xl gap-8 px-5 py-20 sm:px-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+      <Container as="section" className="grid gap-8 py-20 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-acid">
             {shortSection.eyebrow}
@@ -156,13 +157,14 @@ export default function Home() {
             Ver corto
           </Link>
         </div>
-      </section>
+      </Container>
       ) : null}
 
       {artistNoteSection ? (
-        <section className="border-t border-border px-5 py-16 sm:px-8">
-          <div className="mx-auto grid max-w-7xl gap-6 rounded-lg border border-border bg-surface-raised p-6 sm:p-8 lg:grid-cols-[0.7fr_1.3fr]">
-            <div>
+        <section className="border-t border-border py-16">
+          <Container>
+            <div className="grid gap-6 rounded-lg border border-border bg-surface-raised p-6 sm:p-8 lg:grid-cols-[0.7fr_1.3fr]">
+              <div>
               <p className="text-xs font-semibold uppercase tracking-[0.28em] text-cyan">
                 {artistNoteSection.eyebrow}
               </p>
@@ -175,7 +177,8 @@ export default function Home() {
               proyectos, album y corto usando contenido destacado y recencia. Si
               ella fija selecciones manuales, la home respeta esas decisiones.
             </p>
-          </div>
+            </div>
+          </Container>
         </section>
       ) : null}
     </main>
