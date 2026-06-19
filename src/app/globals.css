@@ -11,6 +11,12 @@
   --cyan: #00e0c6;
   --amber: #ffb000;
   --acid: #7cff4b;
+
+  /* Motion tokens (fase-6) */
+  --ease-fluid: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 120ms;
+  --duration-base: 180ms;
+  --duration-slow: 260ms;
 }
 
 @theme inline {
@@ -26,6 +32,7 @@
   --color-acid: var(--acid);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --ease-fluid: var(--ease-fluid);
 }
 
 body {
@@ -51,4 +58,50 @@ img {
 
 .text-balance {
   text-wrap: balance;
+}
+
+/* Reveal al hacer scroll (IntersectionObserver agrega .is-visible) */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity var(--duration-slow) var(--ease-fluid),
+    transform var(--duration-slow) var(--ease-fluid);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Transiciones de pagina (View Transitions API) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--duration-slow);
+  animation-timing-function: var(--ease-fluid);
+}
+
+/* Accesibilidad: desactiva todo el motion si el usuario lo pide */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
 }

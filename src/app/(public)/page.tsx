@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ProjectCard } from "@/components/public/project-card";
 import { Container } from "@/components/ui/container";
+import { Reveal } from "@/components/ui/reveal";
 import { buildHomeCuration, getHomeSection } from "@/lib/content/home-curation";
 
 export default function Home() {
@@ -32,19 +33,37 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_68%_22%,rgba(255,77,141,0.28),transparent_28%),linear-gradient(90deg,rgba(11,10,18,0.94),rgba(11,10,18,0.52)_48%,rgba(11,10,18,0.18))]" />
         <div className="relative z-10 mx-auto w-full max-w-7xl">
-          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.34em] text-cyan">
+          <Reveal
+            as="p"
+            className="mb-5 text-xs font-semibold uppercase tracking-[0.34em] text-cyan"
+          >
             {settings.tagline}
-          </p>
-          <h1 className="max-w-4xl text-balance text-5xl font-semibold leading-[0.95] text-foreground sm:text-7xl lg:text-8xl">
+          </Reveal>
+          <Reveal
+            as="h1"
+            delay={80}
+            className="max-w-4xl text-balance text-5xl font-semibold leading-[0.95] text-foreground sm:text-7xl lg:text-8xl"
+          >
             {settings.homeTitle}
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-muted sm:text-xl">
+          </Reveal>
+          <Reveal
+            as="p"
+            delay={160}
+            className="mt-6 max-w-2xl text-lg leading-8 text-muted sm:text-xl"
+          >
             {settings.homeIntro}
-          </p>
-          <p className="mt-5 inline-flex rounded-full border border-white/15 bg-background/45 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber">
+          </Reveal>
+          <Reveal
+            as="p"
+            delay={240}
+            className="mt-5 inline-flex rounded-full border border-white/15 bg-background/45 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-amber"
+          >
             {modeLabel}
-          </p>
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+          </Reveal>
+          <Reveal
+            delay={300}
+            className="mt-9 flex flex-col gap-3 sm:flex-row"
+          >
             <Link
               href="/proyectos"
               className="rounded-full bg-fuchsia px-6 py-3 text-center text-sm font-semibold text-background transition hover:bg-foreground"
@@ -57,13 +76,13 @@ export default function Home() {
             >
               Ver albumes
             </Link>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {projectSection ? (
       <Container as="section" className="py-20">
-        <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <Reveal className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-fuchsia">
               {projectSection.eyebrow}
@@ -75,15 +94,20 @@ export default function Home() {
           <Link href="/proyectos" className="text-sm font-semibold text-cyan">
             Ver todos
           </Link>
-        </div>
+        </Reveal>
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {highlightedProjects.map((project, index) => (
-            <ProjectCard
+            <Reveal
               key={project.id}
-              project={project}
-              priority={index === 0}
-              large={index === 0}
-            />
+              delay={index * 70}
+              className={index === 0 ? "md:col-span-2" : undefined}
+            >
+              <ProjectCard
+                project={project}
+                priority={index === 0}
+                large={index === 0}
+              />
+            </Reveal>
           ))}
         </div>
       </Container>
@@ -92,7 +116,7 @@ export default function Home() {
       {albumSection ? (
       <section className="border-y border-border bg-surface py-20">
         <Container className="grid gap-8 lg:grid-cols-[1.25fr_0.75fr] lg:items-center">
-          <div className="relative min-h-[420px] overflow-hidden rounded-lg">
+          <Reveal className="relative min-h-[420px] overflow-hidden rounded-lg">
             <Image
               src={featuredAlbum.imageUrl}
               alt={featuredAlbum.imageAlt}
@@ -100,8 +124,8 @@ export default function Home() {
               sizes="(min-width: 1024px) 60vw, 100vw"
               className="object-cover"
             />
-          </div>
-          <div>
+          </Reveal>
+          <Reveal delay={120}>
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-amber">
               {albumSection.eyebrow}
             </p>
@@ -120,14 +144,14 @@ export default function Home() {
             >
               Explorar album
             </Link>
-          </div>
+          </Reveal>
         </Container>
       </section>
       ) : null}
 
       {shortSection ? (
       <Container as="section" className="grid gap-8 py-20 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
-        <div>
+        <Reveal>
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-acid">
             {shortSection.eyebrow}
           </p>
@@ -140,8 +164,11 @@ export default function Home() {
           <p className="mt-4 text-sm uppercase tracking-[0.24em] text-cyan">
             {featuredShort.duration} / {featuredShort.year}
           </p>
-        </div>
-        <div className="relative min-h-[360px] overflow-hidden rounded-lg border border-white/10">
+        </Reveal>
+        <Reveal
+          delay={120}
+          className="relative min-h-[360px] overflow-hidden rounded-lg border border-white/10"
+        >
           <Image
             src={featuredShort.imageUrl}
             alt={featuredShort.imageAlt}
@@ -156,14 +183,14 @@ export default function Home() {
           >
             Ver corto
           </Link>
-        </div>
+        </Reveal>
       </Container>
       ) : null}
 
       {artistNoteSection ? (
         <section className="border-t border-border py-16">
           <Container>
-            <div className="grid gap-6 rounded-lg border border-border bg-surface-raised p-6 sm:p-8 lg:grid-cols-[0.7fr_1.3fr]">
+            <Reveal className="grid gap-6 rounded-lg border border-border bg-surface-raised p-6 sm:p-8 lg:grid-cols-[0.7fr_1.3fr]">
               <div>
               <p className="text-xs font-semibold uppercase tracking-[0.28em] text-cyan">
                 {artistNoteSection.eyebrow}
@@ -177,7 +204,7 @@ export default function Home() {
               proyectos, album y corto usando contenido destacado y recencia. Si
               ella fija selecciones manuales, la home respeta esas decisiones.
             </p>
-            </div>
+            </Reveal>
           </Container>
         </section>
       ) : null}

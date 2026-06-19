@@ -1,6 +1,8 @@
+/// <reference types="react/canary" />
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ViewTransition } from "react";
 import { MediaGrid } from "@/components/public/media-grid";
 import { Container } from "@/components/ui/container";
 import { getProjectBySlug, kindLabels, projects } from "@/lib/demo/content";
@@ -44,14 +46,16 @@ export default async function ProjectDetailPage({
   return (
     <main>
       <section className="relative flex min-h-[78vh] items-end overflow-hidden px-5 pb-14 pt-28 sm:px-8">
-        <Image
-          src={project.imageUrl}
-          alt={project.imageAlt}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
+        <ViewTransition name={`project-${project.slug}`}>
+          <Image
+            src={project.imageUrl}
+            alt={project.imageAlt}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+        </ViewTransition>
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/58 to-background/10" />
         <div className="relative z-10 mx-auto w-full max-w-7xl">
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-cyan">

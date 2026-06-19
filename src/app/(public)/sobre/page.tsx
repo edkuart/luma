@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { PageHero } from "@/components/public/page-hero";
 import { Container } from "@/components/ui/container";
+import { Reveal } from "@/components/ui/reveal";
 
 export const metadata = {
   title: "Sobre",
@@ -16,7 +17,7 @@ export default function AboutPage() {
         description="Esta pagina sera editable desde settings para que la artista pueda ajustar bio, statement, disciplinas y redes sin tocar codigo."
       />
       <Container as="section" className="grid gap-10 pb-20 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-        <div className="relative min-h-[560px] overflow-hidden rounded-lg border border-white/10">
+        <Reveal className="relative min-h-[560px] overflow-hidden rounded-lg border border-white/10">
           <Image
             src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1200&q=82"
             alt="Retrato editorial de una artista mirando hacia la camara."
@@ -25,8 +26,11 @@ export default function AboutPage() {
             sizes="(min-width: 1024px) 42vw, 100vw"
             className="object-cover"
           />
-        </div>
-        <div className="rounded-lg border border-border bg-surface p-6 sm:p-8">
+        </Reveal>
+        <Reveal
+          delay={120}
+          className="rounded-lg border border-border bg-surface p-6 sm:p-8"
+        >
           <p className="text-2xl leading-10 text-foreground">
             Luma Studio nace como una forma de ordenar obra visual sin apagar su
             intensidad: fotografia, albumes, piezas audiovisuales y proyectos
@@ -51,7 +55,7 @@ export default function AboutPage() {
               ),
             )}
           </div>
-        </div>
+        </Reveal>
       </Container>
     </main>
   );

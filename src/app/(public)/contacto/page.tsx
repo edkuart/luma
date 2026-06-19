@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { PageHero } from "@/components/public/page-hero";
 import { Container } from "@/components/ui/container";
+import { Reveal } from "@/components/ui/reveal";
 
 export const metadata = {
   title: "Contacto",
@@ -16,7 +17,7 @@ export default function ContactPage() {
         description="Primera version de contacto con canales directos. El formulario real puede entrar cuando conectemos backend y proteccion anti-spam."
       />
       <Container as="section" className="grid gap-6 pb-20 lg:grid-cols-3">
-        <div className="rounded-lg border border-border bg-surface p-6 lg:col-span-2">
+        <Reveal className="rounded-lg border border-border bg-surface p-6 lg:col-span-2">
           <p className="text-sm uppercase tracking-[0.28em] text-fuchsia">
             Escribenos
           </p>
@@ -33,15 +34,15 @@ export default function ContactPage() {
           >
             hola@lumastudio.demo
           </Link>
-        </div>
-        <div className="rounded-lg border border-border bg-surface p-6">
+        </Reveal>
+        <Reveal delay={100} className="rounded-lg border border-border bg-surface p-6">
           <p className="text-sm uppercase tracking-[0.28em] text-cyan">Redes</p>
           <div className="mt-6 grid gap-4 text-muted">
             <span>Instagram</span>
             <span>Vimeo</span>
             <span>YouTube</span>
           </div>
-        </div>
+        </Reveal>
       </Container>
     </main>
   );

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PageHero } from "@/components/public/page-hero";
 import { Container } from "@/components/ui/container";
+import { Reveal } from "@/components/ui/reveal";
 import { shorts } from "@/lib/demo/content";
 
 export const metadata = {
@@ -18,9 +19,11 @@ export default function ShortsPage() {
         description="Piezas audiovisuales, exploraciones narrativas y visuales con poster, sinopsis y metadata."
       />
       <Container as="section" className="grid gap-6 pb-20">
-        {shorts.map((short) => (
-          <article
+        {shorts.map((short, index) => (
+          <Reveal
+            as="article"
             key={short.id}
+            delay={index * 80}
             className="grid overflow-hidden rounded-lg border border-white/10 bg-surface lg:grid-cols-[0.95fr_1.05fr]"
           >
             <div className="relative min-h-[360px]">
@@ -60,7 +63,7 @@ export default function ShortsPage() {
                 Ver ficha audiovisual
               </Link>
             </div>
-          </article>
+          </Reveal>
         ))}
       </Container>
     </main>

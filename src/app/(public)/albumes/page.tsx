@@ -1,6 +1,7 @@
 import { AlbumCard } from "@/components/public/album-card";
 import { PageHero } from "@/components/public/page-hero";
 import { Container } from "@/components/ui/container";
+import { Reveal } from "@/components/ui/reveal";
 import { albums } from "@/lib/demo/content";
 
 export const metadata = {
@@ -18,7 +19,9 @@ export default function AlbumsPage() {
       />
       <Container as="section" className="grid gap-6 pb-20">
         {albums.map((album, index) => (
-          <AlbumCard key={album.id} album={album} priority={index === 0} />
+          <Reveal key={album.id} delay={index * 80}>
+            <AlbumCard album={album} priority={index === 0} />
+          </Reveal>
         ))}
       </Container>
     </main>
