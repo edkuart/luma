@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import type { DemoMedia } from "@/lib/demo/content";
+import type { DemoMedia } from "@/lib/content/types";
 import { Lightbox } from "./lightbox";
 
 type MediaGridProps = {

@@ -21,6 +21,20 @@ export type HomeManualSelection = {
   featuredShortSlug?: string;
 };
 
+export type SiteTheme = {
+  background: string;
+  foreground: string;
+  surface: string;
+  surfaceRaised: string;
+  border: string;
+  muted: string;
+  fuchsia: string;
+  cyan: string;
+  amber: string;
+  acid: string;
+  heroOverlay: number;
+};
+
 export type SiteSettings = {
   siteName: string;
   tagline: string;
@@ -33,4 +47,5 @@ export type SiteSettings = {
   instagramUrl?: string;
   vimeoUrl?: string;
   youtubeUrl?: string;
+  theme: SiteTheme;
 };

@@ -8,13 +8,14 @@
     "start": "next start",
     "lint": "eslint",
     "db:check": "tsx scripts/check-db.ts",
+    "db:seed": "tsx scripts/seed.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "@clerk/nextjs": "^7.5.5",
     "@neondatabase/serverless": "^1.1.0",
+    "@vercel/blob": "^2.4.1",
     "drizzle-orm": "^0.45.2",
     "motion": "^12.40.0",
     "next": "16.2.9",
@@ -22,6 +23,7 @@
     "react-dom": "19.2.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

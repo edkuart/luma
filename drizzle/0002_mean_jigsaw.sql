@@ -1,0 +1,1 @@
+ALTER TABLE "media_assets" ADD COLUMN "edit_settings" jsonb DEFAULT '{"cropAspect":"4:5","zoom":1,"offsetX":0,"offsetY":0,"brightness":100,"contrast":100,"saturation":100}'::jsonb NOT NULL;

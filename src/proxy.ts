@@ -1,14 +1,36 @@
-import { clerkMiddleware } from "@clerk/nextjs/server";
+import {
+  ADMIN_SESSION_COOKIE,
+  verifyAdminSessionToken,
+} from "@/lib/auth/session";
+import { NextRequest, NextResponse } from "next/server";
 
-// Proteccion del admin desactivada temporalmente: el panel queda abierto en
-// desarrollo. clerkMiddleware se mantiene para que la sesion de Clerk siga
-// disponible (sign-in/up, UserButton), pero no se fuerza login ni rol.
-export default clerkMiddleware();
+export default async function proxy(req: NextRequest) {
+  const { pathname } = req.nextUrl;
+  const isAdminLoginRoute = pathname.startsWith("/admin/login");
+  const isProtectedAdminRoute =
+    pathname.startsWith("/admin") || pathname.startsWith("/api/admin");
+
+  if (!isProtectedAdminRoute || isAdminLoginRoute) {
+    return NextResponse.next();
+  }
+
+  const sessionSecret = process.env.ADMIN_SESSION_SECRET;
+  const sessionToken = req.cookies.get(ADMIN_SESSION_COOKIE)?.value;
+
+  if (
+    sessionSecret &&
+    sessionToken &&
+    (await verifyAdminSessionToken(sessionToken, sessionSecret))
+  ) {
+    return NextResponse.next();
+  }
+
+  const loginUrl = new URL("/admin/login", req.url);
+  loginUrl.searchParams.set("next", `${pathname}${req.nextUrl.search}`);
+
+  return NextResponse.redirect(loginUrl);
+}
 
 export const config = {
-  matcher: [
-    // Todas las rutas excepto archivos estaticos y _next.
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
-    "/(api|trpc)(.*)",
-  ],
+  matcher: ["/admin(.*)", "/api/admin(.*)"],
 };

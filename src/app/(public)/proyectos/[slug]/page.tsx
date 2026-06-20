@@ -5,19 +5,16 @@ import { notFound } from "next/navigation";
 import { ViewTransition } from "react";
 import { MediaGrid } from "@/components/public/media-grid";
 import { Container } from "@/components/ui/container";
-import { getProjectBySlug, kindLabels, projects } from "@/lib/demo/content";
+import { kindLabels } from "@/lib/content/types";
+import { getProjectBySlug, getProjects } from "@/lib/data/content";
 
 type ProjectDetailPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export function generateStaticParams() {
-  return projects.map((project) => ({ slug: project.slug }));
-}
-
 export async function generateMetadata({ params }: ProjectDetailPageProps) {
   const { slug } = await params;
-  const project = getProjectBySlug(slug);
+  const project = await getProjectBySlug(slug);
 
   if (!project) {
     return { title: "Proyecto no encontrado" };
@@ -33,13 +30,13 @@ export default async function ProjectDetailPage({
   params,
 }: ProjectDetailPageProps) {
   const { slug } = await params;
-  const project = getProjectBySlug(slug);
+  const project = await getProjectBySlug(slug);
 
   if (!project) {
     notFound();
   }
 
-  const related = projects
+  const related = (await getProjects())
     .filter((item) => item.id !== project.id && item.kind === project.kind)
     .slice(0, 2);
 

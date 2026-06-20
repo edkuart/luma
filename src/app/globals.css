@@ -62,8 +62,8 @@ img {
 
 /* Reveal al hacer scroll (IntersectionObserver agrega .is-visible) */
 .reveal {
-  opacity: 0;
-  transform: translateY(16px);
+  opacity: 1;
+  transform: none;
   transition:
     opacity var(--duration-slow) var(--ease-fluid),
     transform var(--duration-slow) var(--ease-fluid);

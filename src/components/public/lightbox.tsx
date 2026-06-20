@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import { useCallback, useEffect } from "react";
-import type { DemoMedia } from "@/lib/demo/content";
+import type { DemoMedia } from "@/lib/content/types";
 
 type LightboxProps = {
   items: DemoMedia[];

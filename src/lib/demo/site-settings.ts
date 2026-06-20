@@ -53,4 +53,17 @@ export const demoSiteSettings: SiteSettings = {
   instagramUrl: "https://instagram.com/",
   vimeoUrl: "https://vimeo.com/",
   youtubeUrl: "https://youtube.com/",
+  theme: {
+    background: "#0b0a12",
+    foreground: "#f6f1e8",
+    surface: "#171426",
+    surfaceRaised: "#221b36",
+    border: "#342c49",
+    muted: "#afa7bd",
+    fuchsia: "#ff4d8d",
+    cyan: "#00e0c6",
+    amber: "#ffb000",
+    acid: "#7cff4b",
+    heroOverlay: 58,
+  },
 };

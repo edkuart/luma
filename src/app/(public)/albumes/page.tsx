@@ -2,14 +2,15 @@ import { AlbumCard } from "@/components/public/album-card";
 import { PageHero } from "@/components/public/page-hero";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
-import { albums } from "@/lib/demo/content";
+import { getAlbums } from "@/lib/data/content";
 
 export const metadata = {
   title: "Albumes",
   description: "Series fotograficas y colecciones visuales de Luma Studio.",
 };
 
-export default function AlbumsPage() {
+export default async function AlbumsPage() {
+  const albums = await getAlbums();
   return (
     <main>
       <PageHero

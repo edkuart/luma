@@ -2,14 +2,16 @@ import { PageHero } from "@/components/public/page-hero";
 import { ProjectCard } from "@/components/public/project-card";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
-import { kindLabels, projects } from "@/lib/demo/content";
+import { kindLabels } from "@/lib/content/types";
+import { getProjects } from "@/lib/data/content";
 
 export const metadata = {
   title: "Proyectos",
   description: "Archivo de proyectos artisticos de Luma Studio.",
 };
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const projects = await getProjects();
   const filters = ["Todo", ...Object.values(kindLabels)];
 
   return (

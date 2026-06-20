@@ -8,6 +8,20 @@
       "when": 1781820387338,
       "tag": "0000_magenta_frog_thor",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1781903612427,
+      "tag": "0001_daffy_redwing",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1781907057506,
+      "tag": "0002_mean_jigsaw",
+      "breakpoints": true
     }
   ]
 }

@@ -1,8 +1,6 @@
-/// <reference types="react/canary" />
 import Image from "next/image";
 import Link from "next/link";
-import { ViewTransition } from "react";
-import type { DemoAlbum } from "@/lib/demo/content";
+import type { DemoAlbum } from "@/lib/content/types";
 
 type AlbumCardProps = {
   album: DemoAlbum;
@@ -16,7 +14,7 @@ export function AlbumCard({ album, priority }: AlbumCardProps) {
       className="group grid overflow-hidden rounded-lg border border-white/10 bg-surface transition-colors duration-[180ms] ease-fluid hover:border-cyan/30 md:grid-cols-[0.9fr_1fr]"
     >
       <div className="relative min-h-[320px] overflow-hidden">
-        <ViewTransition name={`album-${album.slug}`}>
+        {album.imageUrl ? (
           <Image
             src={album.imageUrl}
             alt={album.imageAlt}
@@ -25,7 +23,10 @@ export function AlbumCard({ album, priority }: AlbumCardProps) {
             sizes="(min-width: 768px) 45vw, 100vw"
             className="object-cover transition-transform duration-[420ms] ease-fluid group-hover:scale-105"
           />
-        </ViewTransition>
+        ) : (
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(0,224,198,0.24),transparent_30%),linear-gradient(135deg,#221b36,#0b0a12)]" />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-background/35 to-transparent" />
       </div>
       <div className="flex flex-col justify-between p-6">
         <div>
@@ -47,7 +48,13 @@ export function AlbumCard({ album, priority }: AlbumCardProps) {
             aria-hidden="true"
             className="transition-transform duration-[180ms] ease-fluid group-hover:translate-x-1"
           >
-            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path
+              d="M3 8h10M9 4l4 4-4 4"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         </p>
       </div>

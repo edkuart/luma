@@ -1,4 +1,3 @@
-import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -36,7 +35,7 @@ export default function RootLayout({
         <noscript>
           <style>{`.reveal { opacity: 1 !important; transform: none !important; }`}</style>
         </noscript>
-        <ClerkProvider>{children}</ClerkProvider>
+        {children}
       </body>
     </html>
   );

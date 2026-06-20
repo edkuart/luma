@@ -1,4 +1,8 @@
-import { relations, type InferInsertModel, type InferSelectModel } from "drizzle-orm";
+import {
+  relations,
+  type InferInsertModel,
+  type InferSelectModel,
+} from "drizzle-orm";
 import {
   boolean,
   integer,
@@ -14,7 +18,9 @@ import {
 import type {
   HomeManualSelection,
   HomeSectionConfig,
+  SiteTheme,
 } from "@/types/site-settings";
+import type { MediaEditSettings } from "@/types/media";
 
 export const contentStatus = pgEnum("content_status", [
   "draft",
@@ -61,10 +67,24 @@ export const mediaAssets = pgTable(
     durationSeconds: integer("duration_seconds"),
     dominantColor: text("dominant_color"),
     blurDataUrl: text("blur_data_url"),
+    editSettings: jsonb("edit_settings")
+      .$type<MediaEditSettings>()
+      .notNull()
+      .default({
+        cropAspect: "4:5",
+        zoom: 1,
+        offsetX: 0,
+        offsetY: 0,
+        brightness: 100,
+        contrast: 100,
+        saturation: 100,
+      }),
     status: contentStatus("status").notNull().default("draft"),
     ...timestamps,
   },
-  (table) => [uniqueIndex("media_assets_bucket_path_idx").on(table.bucket, table.path)],
+  (table) => [
+    uniqueIndex("media_assets_bucket_path_idx").on(table.bucket, table.path),
+  ],
 );
 
 export const projects = pgTable("projects", {
@@ -121,7 +141,12 @@ export const projectMedia = pgTable(
       .notNull()
       .defaultNow(),
   },
-  (table) => [uniqueIndex("project_media_project_media_idx").on(table.projectId, table.mediaId)],
+  (table) => [
+    uniqueIndex("project_media_project_media_idx").on(
+      table.projectId,
+      table.mediaId,
+    ),
+  ],
 );
 
 export const albumMedia = pgTable(
@@ -139,7 +164,9 @@ export const albumMedia = pgTable(
       .notNull()
       .defaultNow(),
   },
-  (table) => [uniqueIndex("album_media_album_media_idx").on(table.albumId, table.mediaId)],
+  (table) => [
+    uniqueIndex("album_media_album_media_idx").on(table.albumId, table.mediaId),
+  ],
 );
 
 export const tags = pgTable("tags", {
@@ -193,6 +220,19 @@ export const siteSettings = pgTable("site_settings", {
     .$type<HomeSectionConfig[]>()
     .notNull()
     .default([]),
+  theme: jsonb("theme").$type<SiteTheme>().notNull().default({
+    background: "#0b0a12",
+    foreground: "#f6f1e8",
+    surface: "#171426",
+    surfaceRaised: "#221b36",
+    border: "#342c49",
+    muted: "#afa7bd",
+    fuchsia: "#ff4d8d",
+    cyan: "#00e0c6",
+    amber: "#ffb000",
+    acid: "#7cff4b",
+    heroOverlay: 58,
+  }),
   contactEmail: text("contact_email"),
   instagramUrl: text("instagram_url"),
   vimeoUrl: text("vimeo_url"),
@@ -253,6 +293,33 @@ export const albumMediaRelations = relations(albumMedia, ({ one }) => ({
   media: one(mediaAssets, {
     fields: [albumMedia.mediaId],
     references: [mediaAssets.id],
+  }),
+}));
+
+export const tagsRelations = relations(tags, ({ many }) => ({
+  projectTags: many(projectTags),
+  albumTags: many(albumTags),
+}));
+
+export const projectTagsRelations = relations(projectTags, ({ one }) => ({
+  project: one(projects, {
+    fields: [projectTags.projectId],
+    references: [projects.id],
+  }),
+  tag: one(tags, {
+    fields: [projectTags.tagId],
+    references: [tags.id],
+  }),
+}));
+
+export const albumTagsRelations = relations(albumTags, ({ one }) => ({
+  album: one(albums, {
+    fields: [albumTags.albumId],
+    references: [albums.id],
+  }),
+  tag: one(tags, {
+    fields: [albumTags.tagId],
+    references: [tags.id],
   }),
 }));
 

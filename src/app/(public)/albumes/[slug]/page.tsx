@@ -5,19 +5,15 @@ import { notFound } from "next/navigation";
 import { ViewTransition } from "react";
 import { MediaGrid } from "@/components/public/media-grid";
 import { Container } from "@/components/ui/container";
-import { albums, getAlbumBySlug } from "@/lib/demo/content";
+import { getAlbumBySlug, getAlbums } from "@/lib/data/content";
 
 type AlbumDetailPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export function generateStaticParams() {
-  return albums.map((album) => ({ slug: album.slug }));
-}
-
 export async function generateMetadata({ params }: AlbumDetailPageProps) {
   const { slug } = await params;
-  const album = getAlbumBySlug(slug);
+  const album = await getAlbumBySlug(slug);
 
   if (!album) {
     return { title: "Album no encontrado" };
@@ -31,12 +27,13 @@ export async function generateMetadata({ params }: AlbumDetailPageProps) {
 
 export default async function AlbumDetailPage({ params }: AlbumDetailPageProps) {
   const { slug } = await params;
-  const album = getAlbumBySlug(slug);
+  const album = await getAlbumBySlug(slug);
 
   if (!album) {
     notFound();
   }
 
+  const albums = await getAlbums();
   const currentIndex = albums.findIndex((item) => item.id === album.id);
   const previous = albums[currentIndex - 1];
   const next = albums[currentIndex + 1];

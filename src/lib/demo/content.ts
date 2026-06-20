@@ -1,67 +1,13 @@
-export type ProjectKind =
-  | "photography"
-  | "short_film"
-  | "editorial"
-  | "experimental"
-  | "direction"
-  | "mixed";
+import type { DemoAlbum, DemoProject, DemoShort } from "@/lib/content/types";
 
-export type DemoProject = {
-  id: string;
-  title: string;
-  slug: string;
-  summary: string;
-  description: string;
-  kind: ProjectKind;
-  year: number;
-  role: string;
-  location: string;
-  credits: string;
-  tags: string[];
-  imageUrl: string;
-  imageAlt: string;
-  gallery: DemoMedia[];
-  videoUrl?: string;
-  featured?: boolean;
-};
-
-export type DemoMedia = {
-  id: string;
-  url: string;
-  alt: string;
-  caption: string;
-  width: number;
-  height: number;
-};
-
-export type DemoAlbum = {
-  id: string;
-  title: string;
-  slug: string;
-  summary: string;
-  description: string;
-  year: number;
-  imageCount: number;
-  imageUrl: string;
-  imageAlt: string;
-  tags: string[];
-  gallery: DemoMedia[];
-  featured?: boolean;
-};
-
-export type DemoShort = {
-  id: string;
-  title: string;
-  slug: string;
-  summary: string;
-  description: string;
-  duration: string;
-  year: number;
-  imageUrl: string;
-  imageAlt: string;
-  role: string;
-  tags: string[];
-};
+export type {
+  DemoAlbum,
+  DemoMedia,
+  DemoProject,
+  DemoShort,
+  ProjectKind,
+} from "@/lib/content/types";
+export { kindLabels } from "@/lib/content/types";
 
 export const projects: DemoProject[] = [
   {
@@ -332,15 +278,6 @@ export const shorts: DemoShort[] = [
     tags: ["Corto", "Cine", "Memoria"],
   },
 ];
-
-export const kindLabels: Record<ProjectKind, string> = {
-  photography: "Fotografia",
-  short_film: "Cortometraje",
-  editorial: "Editorial",
-  experimental: "Experimental",
-  direction: "Direccion",
-  mixed: "Mixto",
-};
 
 export function getProjectBySlug(slug: string) {
   return projects.find((project) => project.slug === slug);

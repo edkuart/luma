@@ -3,14 +3,16 @@ import Link from "next/link";
 import { PageHero } from "@/components/public/page-hero";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
-import { shorts } from "@/lib/demo/content";
+import { getShorts } from "@/lib/data/content";
 
 export const metadata = {
   title: "Cortometrajes",
   description: "Piezas audiovisuales y cortometrajes de Luma Studio.",
 };
 
-export default function ShortsPage() {
+export default async function ShortsPage() {
+  const shorts = await getShorts();
+
   return (
     <main>
       <PageHero
@@ -38,7 +40,8 @@ export default function ShortsPage() {
             </div>
             <div className="flex flex-col justify-center p-6 sm:p-8">
               <p className="text-xs font-semibold uppercase tracking-[0.28em] text-acid">
-                {short.duration} / {short.year}
+                {short.duration ? `${short.duration} / ` : ""}
+                {short.year}
               </p>
               <h2 className="mt-4 text-4xl font-semibold text-balance">
                 {short.title}
@@ -57,7 +60,7 @@ export default function ShortsPage() {
                 ))}
               </div>
               <Link
-                href={`/proyectos/linea-de-fuga`}
+                href={`/proyectos/${short.slug}`}
                 className="mt-8 inline-flex w-fit rounded-full bg-acid px-6 py-3 text-sm font-semibold text-background"
               >
                 Ver ficha audiovisual
