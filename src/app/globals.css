@@ -17,6 +17,12 @@
   --duration-fast: 120ms;
   --duration-base: 180ms;
   --duration-slow: 260ms;
+
+  /* Scrollbars — derivados del tema (se difuminan al cambiar acentos) */
+  --scrollbar-size: 10px;
+  --scrollbar-rest: color-mix(in srgb, var(--border) 85%, transparent);
+  --scrollbar-thumb: color-mix(in srgb, var(--cyan) 45%, transparent);
+  --scrollbar-thumb-hover: color-mix(in srgb, var(--cyan) 78%, transparent);
 }
 
 @theme inline {
@@ -58,6 +64,69 @@ img {
 
 .text-balance {
   text-wrap: balance;
+}
+
+/* ============================================================
+   SCROLLBARS — finos, temáticos y discretos
+   ============================================================ */
+/* Barra global discreta (página y contenedores normales). */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-rest) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: var(--scrollbar-size);
+  height: var(--scrollbar-size);
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-rest);
+  border-radius: 9999px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+  transition: background var(--duration-base) var(--ease-fluid);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Auto-ocultable: invisible en reposo; aparece al pasar el cursor o
+   mientras se hace scroll (.is-scrolling lo agrega ScrollbarAutoHide). */
+.luma-scroll {
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color var(--duration-base) var(--ease-fluid);
+}
+
+.luma-scroll::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+.luma-scroll:hover,
+.luma-scroll.is-scrolling {
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+
+.luma-scroll:hover::-webkit-scrollbar-thumb,
+.luma-scroll.is-scrolling::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  background-clip: padding-box;
+}
+
+.luma-scroll:hover::-webkit-scrollbar-thumb:hover,
+.luma-scroll.is-scrolling::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+  background-clip: padding-box;
 }
 
 /* Reveal al hacer scroll (IntersectionObserver agrega .is-visible) */

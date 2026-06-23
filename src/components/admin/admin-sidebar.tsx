@@ -123,7 +123,7 @@ function AdminNav({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
 
   return (
-    <nav className="grid gap-3.5 overflow-y-auto">
+    <nav className="grid gap-3.5">
       {navGroups.map((group) => (
         <div key={group.key}>
           <p className="px-1.5 pb-2 text-[10.5px] font-semibold uppercase tracking-[0.18em] text-muted">
@@ -201,7 +201,7 @@ function SidebarBody({
 
 export function AdminSidebar({ adminEmail }: AdminSidebarProps) {
   return (
-    <aside className="sticky top-0 hidden h-screen overflow-y-auto border-r border-border bg-surface p-5 lg:block">
+    <aside className="luma-scroll sticky top-0 hidden h-screen overflow-y-auto border-r border-border bg-surface p-5 lg:block">
       <SidebarBody adminEmail={adminEmail} />
     </aside>
   );
@@ -255,11 +255,11 @@ export function AdminMobileNav({ adminEmail }: AdminSidebarProps) {
             aria-controls="admin-drawer"
             aria-label="Abrir menu"
             onClick={() => setOpen(true)}
-            className="grid size-11 place-items-center gap-1 rounded-lg border border-border text-foreground"
+            className="group grid size-11 place-items-center gap-[5px] rounded-xl border border-border bg-surface-raised/60 text-foreground shadow-[0_1px_2px_rgba(0,0,0,0.35)] transition duration-[180ms] ease-[var(--ease-fluid)] hover:border-cyan hover:bg-surface-raised hover:text-cyan hover:shadow-[0_0_18px_rgba(0,224,198,0.18)] active:scale-95"
           >
-            <span className="block h-px w-[18px] bg-current" />
-            <span className="block h-px w-[18px] bg-current" />
-            <span className="block h-px w-[18px] bg-current" />
+            <span className="block h-[2px] w-5 rounded-full bg-current transition-all duration-[180ms] ease-[var(--ease-fluid)]" />
+            <span className="block h-[2px] w-3 rounded-full bg-current transition-all duration-[180ms] ease-[var(--ease-fluid)] group-hover:w-5" />
+            <span className="block h-[2px] w-5 rounded-full bg-current transition-all duration-[180ms] ease-[var(--ease-fluid)]" />
           </button>
         </div>
       </header>
@@ -277,7 +277,7 @@ export function AdminMobileNav({ adminEmail }: AdminSidebarProps) {
       <aside
         id="admin-drawer"
         aria-hidden={!open}
-        className={`fixed inset-y-0 left-0 z-40 w-[280px] max-w-[85vw] overflow-y-auto border-r border-border bg-surface p-5 transition-transform duration-[260ms] ease-[var(--ease-fluid)] ${
+        className={`luma-scroll fixed inset-y-0 left-0 z-40 w-[280px] max-w-[85vw] overflow-y-auto border-r border-border bg-surface p-5 transition-transform duration-[260ms] ease-[var(--ease-fluid)] ${
           open ? "translate-x-0" : "-translate-x-[104%]"
         }`}
       >
