@@ -35,6 +35,15 @@ export type SiteTheme = {
   heroOverlay: number;
 };
 
+export type ImageProtection = {
+  /** Bloquea click derecho / arrastre sobre las imagenes publicas. */
+  disableRightClick: boolean;
+  /** Superpone una marca de agua de texto sobre las imagenes de galeria. */
+  watermarkEnabled: boolean;
+  /** Texto de la marca de agua (ej: el nombre del artista). */
+  watermarkText: string;
+};
+
 export type SiteSettings = {
   siteName: string;
   tagline: string;
@@ -48,4 +57,5 @@ export type SiteSettings = {
   vimeoUrl?: string;
   youtubeUrl?: string;
   theme: SiteTheme;
+  imageProtection: ImageProtection;
 };

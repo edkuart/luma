@@ -1,25 +1,13 @@
 import Link from "next/link";
-import { saveAlbumAction } from "@/app/admin/albumes/actions";
+import { saveAlbumAction } from "@/app/admin/(dashboard)/albumes/actions";
+import { adminButton } from "@/components/admin/admin-button";
+import { CoverUpload } from "@/components/admin/cover-upload";
+import { fieldClass, labelClass } from "@/components/admin/form-fields";
+import { GalleryEditor } from "@/components/admin/gallery-editor";
 import type { getAdminAlbumById } from "@/lib/data/content";
+import { galleryToText } from "@/lib/admin/gallery-text";
 
 type AlbumRow = NonNullable<Awaited<ReturnType<typeof getAdminAlbumById>>>;
-
-const fieldClass =
-  "rounded-md border border-border bg-background px-3 py-2.5 text-sm outline-none transition focus:border-cyan";
-const labelClass = "grid gap-2 text-sm font-medium";
-
-function galleryToText(media: AlbumRow["media"]) {
-  return [...media]
-    .sort((a, b) => a.sortOrder - b.sortOrder)
-    .map((m) =>
-      [
-        m.media.publicUrl ?? m.media.externalUrl ?? "",
-        m.media.alt ?? "",
-        m.media.caption ?? "",
-      ].join(" | "),
-    )
-    .join("\n");
-}
 
 export function AlbumForm({ album }: { album?: AlbumRow }) {
   const cover = album?.coverMedia;
@@ -72,6 +60,7 @@ export function AlbumForm({ album }: { album?: AlbumRow }) {
         <label className={labelClass}>
           URL de portada
           <input
+            id="coverUrl"
             name="coverUrl"
             type="url"
             defaultValue={cover?.publicUrl ?? cover?.externalUrl ?? ""}
@@ -81,12 +70,14 @@ export function AlbumForm({ album }: { album?: AlbumRow }) {
         <label className={labelClass}>
           Texto alternativo de portada
           <input
+            id="coverAlt"
             name="coverAlt"
             defaultValue={cover?.alt ?? ""}
             className={fieldClass}
           />
         </label>
       </div>
+      <CoverUpload />
 
       <label className={labelClass}>
         Tags (separados por coma)
@@ -97,15 +88,7 @@ export function AlbumForm({ album }: { album?: AlbumRow }) {
         />
       </label>
 
-      <label className={labelClass}>
-        Galeria (una por linea: url | alt | caption)
-        <textarea
-          name="gallery"
-          rows={6}
-          defaultValue={album ? galleryToText(album.media) : ""}
-          className={`${fieldClass} font-mono text-xs`}
-        />
-      </label>
+      <GalleryEditor initialValue={album ? galleryToText(album.media) : ""} />
 
       <div className="grid gap-5 sm:grid-cols-3">
         <label className={labelClass}>
@@ -151,16 +134,10 @@ export function AlbumForm({ album }: { album?: AlbumRow }) {
       </label>
 
       <div className="mt-2 flex items-center gap-3">
-        <button
-          type="submit"
-          className="rounded-md bg-fuchsia px-5 py-3 text-sm font-semibold text-white transition hover:brightness-110"
-        >
+        <button type="submit" className={adminButton("primary", { shape: "square" })}>
           {album ? "Guardar cambios" : "Crear album"}
         </button>
-        <Link
-          href="/admin/albumes"
-          className="rounded-md border border-border px-5 py-3 text-sm font-semibold text-muted transition hover:text-foreground"
-        >
+        <Link href="/admin/albumes" className={adminButton("ghost", { shape: "square" })}>
           Cancelar
         </Link>
       </div>

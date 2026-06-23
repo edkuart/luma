@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import { CoverImage } from "@/components/public/cover-image";
 import { PageHero } from "@/components/public/page-hero";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
@@ -29,10 +29,10 @@ export default async function ShortsPage() {
             className="grid overflow-hidden rounded-lg border border-white/10 bg-surface lg:grid-cols-[0.95fr_1.05fr]"
           >
             <div className="relative min-h-[360px]">
-              <Image
+              <CoverImage
+                imageId={short.imageId}
                 src={short.imageUrl}
                 alt={short.imageAlt}
-                fill
                 priority
                 sizes="(min-width: 1024px) 50vw, 100vw"
                 className="object-cover"

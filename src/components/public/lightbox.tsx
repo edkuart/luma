@@ -1,13 +1,15 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import Image from "next/image";
 import { useCallback, useEffect } from "react";
 import type { DemoMedia } from "@/lib/content/types";
+import type { ImageProtection } from "@/types/site-settings";
+import { ProtectedImage } from "./protected-image";
 
 type LightboxProps = {
   items: DemoMedia[];
   index: number | null;
+  protection: ImageProtection;
   onClose: () => void;
   onChange: (index: number) => void;
 };
@@ -20,7 +22,13 @@ const EASE = [0.22, 1, 0.36, 1] as const;
  * `prefers-reduced-motion` via el guard global (Motion lo detecta y reduce la
  * animacion automaticamente).
  */
-export function Lightbox({ items, index, onClose, onChange }: LightboxProps) {
+export function Lightbox({
+  items,
+  index,
+  protection,
+  onClose,
+  onChange,
+}: LightboxProps) {
   const open = index !== null;
   const total = items.length;
 
@@ -109,15 +117,16 @@ export function Lightbox({ items, index, onClose, onChange }: LightboxProps) {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.18, ease: EASE }}
             >
-              <Image
-                src={current.url}
+              <ProtectedImage
+                src={`/api/media/${current.id}`}
                 alt={current.alt}
+                protection={protection}
                 width={current.width}
                 height={current.height}
                 sizes="100vw"
                 priority
-                draggable={false}
-                className="h-auto max-h-[78vh] w-auto select-none rounded-lg object-contain"
+                className="h-auto max-h-[78vh] w-auto rounded-lg object-contain"
+                style={current.filter ? { filter: current.filter } : undefined}
               />
             </motion.div>
           </div>

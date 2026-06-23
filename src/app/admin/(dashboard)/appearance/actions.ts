@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth/admin";
 import { mergeTheme } from "@/lib/theme";
-import { updateSiteTheme } from "@/lib/data/mutations";
+import { updateImageProtection, updateSiteTheme } from "@/lib/data/mutations";
 import type { SiteTheme } from "@/types/site-settings";
 
 const hexPattern = /^#[0-9a-fA-F]{6}$/;
@@ -35,6 +35,12 @@ export async function saveAppearanceAction(formData: FormData) {
   };
 
   await updateSiteTheme(theme);
+
+  await updateImageProtection({
+    disableRightClick: formData.get("disableRightClick") === "on",
+    watermarkEnabled: formData.get("watermarkEnabled") === "on",
+    watermarkText: String(formData.get("watermarkText") ?? "").trim(),
+  });
 
   revalidatePath("/");
   revalidatePath("/proyectos");

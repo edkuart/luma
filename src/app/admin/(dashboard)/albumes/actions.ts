@@ -17,6 +17,7 @@ import {
 function revalidateAlbums() {
   revalidatePath("/admin/albumes");
   revalidatePath("/albumes");
+  revalidatePath("/albumes/[slug]", "page");
   revalidatePath("/");
 }
 

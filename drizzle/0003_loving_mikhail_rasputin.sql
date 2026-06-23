@@ -1,0 +1,2 @@
+ALTER TABLE "projects" ADD COLUMN "video_url" text;--> statement-breakpoint
+ALTER TABLE "site_settings" ADD COLUMN "image_protection" jsonb DEFAULT '{"disableRightClick":true,"watermarkEnabled":false,"watermarkText":""}'::jsonb NOT NULL;

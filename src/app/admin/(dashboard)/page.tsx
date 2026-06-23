@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { adminButton } from "@/components/admin/admin-button";
 import { getHomeCuration } from "@/lib/content/home-curation";
 import {
   getAdminAlbums,
@@ -30,8 +31,20 @@ export default async function AdminPage() {
       </p>
       <h1 className="mt-4 text-4xl font-semibold">Dashboard</h1>
       <p className="mt-3 max-w-2xl text-muted">
-        Resumen del contenido. Todo es editable y se refleja en el sitio publico.
+        Resumen del contenido. Todo es editable y se refleja en el sitio
+        publico.
       </p>
+      <div className="mt-6 flex flex-wrap gap-3">
+        <Link href="/admin/proyectos" className={adminButton("cyan")}>
+          Ver proyectos
+        </Link>
+        <Link href="/admin/proyectos/nuevo" className={adminButton("primary")}>
+          Nuevo proyecto
+        </Link>
+        <Link href="/admin/media" className={adminButton("ghost")}>
+          Subir media
+        </Link>
+      </div>
       <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
           <Link
@@ -56,10 +69,7 @@ export default async function AdminPage() {
           La curaduria del home se controla desde Home (modo automatico o
           seleccion manual de hero, album, corto y secciones visibles).
         </p>
-        <Link
-          href="/admin/home"
-          className="mt-6 inline-flex rounded-full bg-cyan px-5 py-3 text-sm font-semibold text-background"
-        >
+        <Link href="/admin/home" className={`${adminButton("cyan")} mt-6`}>
           Editar home
         </Link>
       </div>

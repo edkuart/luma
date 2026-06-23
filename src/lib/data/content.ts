@@ -7,6 +7,7 @@ import type {
   ProjectKind,
 } from "@/lib/content/types";
 import { demoSiteSettings } from "@/lib/demo/site-settings";
+import { mergeImageProtection } from "@/lib/theme";
 import {
   normalizeMediaEditSettings,
   type MediaEditSettings,
@@ -21,10 +22,23 @@ type MediaRow = {
   caption: string | null;
   width: number | null;
   height: number | null;
+  editSettings?: MediaEditSettings | null;
 };
 
 function mediaUrl(media: MediaRow) {
   return media.publicUrl ?? media.externalUrl ?? "";
+}
+
+/** Convierte los ajustes editoriales en un filtro CSS (si difieren del base). */
+function editSettingsToFilter(settings?: MediaEditSettings | null) {
+  if (!settings) {
+    return undefined;
+  }
+  const { brightness, contrast, saturation } = settings;
+  if (brightness === 100 && contrast === 100 && saturation === 100) {
+    return undefined;
+  }
+  return `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturation}%)`;
 }
 
 function toMedia(media: MediaRow): DemoMedia {
@@ -35,6 +49,7 @@ function toMedia(media: MediaRow): DemoMedia {
     caption: media.caption ?? "",
     width: media.width ?? 1200,
     height: media.height ?? 800,
+    filter: editSettingsToFilter(media.editSettings),
   };
 }
 
@@ -60,6 +75,7 @@ type ProjectRow = {
   role: string | null;
   location: string | null;
   credits: string | null;
+  videoUrl: string | null;
   status: ContentStatus;
   sortOrder: number;
   isFeatured: boolean;
@@ -104,7 +120,9 @@ function toProject(row: ProjectRow): DemoProject {
     tags: row.tags.map((t) => t.tag.name),
     imageUrl: row.coverMedia ? mediaUrl(row.coverMedia) : "",
     imageAlt: row.coverMedia?.alt ?? row.title,
+    imageId: row.coverMedia?.id,
     gallery: gallery(row.media),
+    videoUrl: row.videoUrl ?? undefined,
     featured: row.isFeatured,
   };
 }
@@ -120,6 +138,7 @@ function toShort(row: ProjectRow): DemoShort {
     year: row.year ?? 0,
     imageUrl: row.coverMedia ? mediaUrl(row.coverMedia) : "",
     imageAlt: row.coverMedia?.alt ?? row.title,
+    imageId: row.coverMedia?.id,
     role: row.role ?? "",
     tags: row.tags.map((t) => t.tag.name),
   };
@@ -137,6 +156,7 @@ function toAlbum(row: AlbumRow): DemoAlbum {
     imageCount: items.length,
     imageUrl: row.coverMedia ? mediaUrl(row.coverMedia) : "",
     imageAlt: row.coverMedia?.alt ?? row.title,
+    imageId: row.coverMedia?.id,
     tags: row.tags.map((t) => t.tag.name),
     gallery: items,
     featured: row.isFeatured,
@@ -211,6 +231,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     vimeoUrl: row.vimeoUrl ?? undefined,
     youtubeUrl: row.youtubeUrl ?? undefined,
     theme: row.theme,
+    imageProtection: mergeImageProtection(row.imageProtection),
   };
 }
 

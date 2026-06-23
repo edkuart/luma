@@ -1,7 +1,9 @@
 "use client";
 
+import { upload } from "@vercel/blob/client";
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { fieldClass, labelClass } from "@/components/admin/form-fields";
 import type { AdminMediaRow } from "@/lib/data/content";
 import {
   defaultMediaEditSettings,
@@ -17,22 +19,49 @@ type MediaStudioProps = {
   deleteAction: (formData: FormData) => Promise<void>;
 };
 
-const fieldClass =
-  "rounded-md border border-border bg-background px-3 py-2.5 text-sm outline-none transition focus:border-cyan";
-
 const aspectOptions: Array<{ value: CropAspect; label: string }> = [
+  { value: "original", label: "Original" },
   { value: "1:1", label: "1:1" },
   { value: "4:5", label: "4:5" },
   { value: "3:2", label: "3:2" },
   { value: "16:9", label: "16:9" },
 ];
 
-const aspectSizes: Record<CropAspect, { width: number; height: number }> = {
+const fixedAspectSizes: Record<
+  Exclude<CropAspect, "original">,
+  { width: number; height: number }
+> = {
   "1:1": { width: 1200, height: 1200 },
   "4:5": { width: 1200, height: 1500 },
   "3:2": { width: 1200, height: 800 },
   "16:9": { width: 1280, height: 720 },
 };
+
+const ORIGINAL_FALLBACK = { width: 1200, height: 800 };
+const ORIGINAL_MAX_SIDE = 1600;
+
+type Size = { width: number; height: number };
+
+/**
+ * Tamano del lienzo segun el formato. "original" usa las medidas reales de la
+ * imagen (capadas para no reventar memoria); el resto fuerza un recorte fijo.
+ */
+function resolveCanvasSize(crop: CropAspect, natural: Size | null): Size {
+  if (crop !== "original") {
+    return fixedAspectSizes[crop];
+  }
+  if (!natural) {
+    return ORIGINAL_FALLBACK;
+  }
+  const scale = Math.min(
+    1,
+    ORIGINAL_MAX_SIDE / Math.max(natural.width, natural.height),
+  );
+  return {
+    width: Math.max(1, Math.round(natural.width * scale)),
+    height: Math.max(1, Math.round(natural.height * scale)),
+  };
+}
 
 export function MediaStudio({
   media,
@@ -51,9 +80,10 @@ export function MediaStudio({
   const [settings, setSettings] = useState<MediaEditSettings>(
     defaultMediaEditSettings,
   );
+  const [naturalSize, setNaturalSize] = useState<Size | null>(null);
   const [exportMessage, setExportMessage] = useState("");
 
-  const canvasSize = aspectSizes[settings.cropAspect];
+  const canvasSize = resolveCanvasSize(settings.cropAspect, naturalSize);
   const editSettingsValue = useMemo(() => JSON.stringify(settings), [settings]);
 
   useEffect(() => {
@@ -79,6 +109,18 @@ export function MediaStudio({
     }
 
     image.onload = () => {
+      // Guarda las medidas reales para el formato "Original" (sin bucle: solo
+      // actualiza si cambiaron).
+      if (image.naturalWidth && image.naturalHeight) {
+        setNaturalSize((prev) =>
+          prev &&
+          prev.width === image.naturalWidth &&
+          prev.height === image.naturalHeight
+            ? prev
+            : { width: image.naturalWidth, height: image.naturalHeight },
+        );
+      }
+
       canvas.width = canvasSize.width;
       canvas.height = canvasSize.height;
       const context = canvas.getContext("2d");
@@ -140,11 +182,28 @@ export function MediaStudio({
     setPreviewUrl("");
     setAlt(item.alt);
     setCaption(item.caption);
+    setNaturalSize(
+      item.width && item.height
+        ? { width: item.width, height: item.height }
+        : null,
+    );
     setSettings(normalizeMediaEditSettings(item.editSettings));
     setExportMessage("Imagen abierta en el studio.");
   }
 
-  function handleLocalFile(file: File | undefined) {
+  /** Devuelve la imagen a su formato original (sin recorte ni ajustes), pero
+   * sin descartarla. Opcion separada de "Limpiar studio". */
+  function resetToOriginal() {
+    setSettings(
+      normalizeMediaEditSettings({
+        ...defaultMediaEditSettings,
+        cropAspect: "original",
+      }),
+    );
+    setExportMessage("Formato original restaurado.");
+  }
+
+  async function handleLocalFile(file: File | undefined) {
     if (!file) {
       return;
     }
@@ -155,9 +214,30 @@ export function MediaStudio({
     objectUrlRef.current = nextUrl;
     setPreviewUrl(nextUrl);
     setSelectedId("");
-    setExportMessage(
-      "Archivo local cargado. Puedes exportarlo o agregar una URL para guardarlo.",
+    setNaturalSize(null);
+    // La imagen local arranca en su formato original (sus medidas reales).
+    setSettings((current) =>
+      normalizeMediaEditSettings({ ...current, cropAspect: "original" }),
     );
+    setExportMessage("Subiendo archivo a la nube…");
+
+    // Subida directa cliente -> Blob: rellena la URL para guardar el asset sin
+    // pasar el archivo por la Server Action (soporta imagenes pesadas).
+    try {
+      const blob = await upload(file.name, file, {
+        access: "public",
+        handleUploadUrl: "/api/admin/blob-upload",
+        contentType: file.type || undefined,
+      });
+      setSourceUrl(blob.url);
+      setExportMessage("Archivo subido. Ajusta y guardalo como asset.");
+    } catch (uploadError) {
+      setExportMessage(
+        uploadError instanceof Error
+          ? `No se pudo subir: ${uploadError.message}`
+          : "No se pudo subir el archivo.",
+      );
+    }
   }
 
   function exportCanvas() {
@@ -185,6 +265,7 @@ export function MediaStudio({
     setPreviewUrl("");
     setAlt("");
     setCaption("");
+    setNaturalSize(null);
     setSettings(defaultMediaEditSettings);
     setExportMessage("");
   }
@@ -205,20 +286,30 @@ export function MediaStudio({
                 asset.
               </p>
             </div>
-            <button
-              type="button"
-              onClick={resetStudio}
-              className="rounded-md border border-border px-4 py-2 text-sm font-semibold text-muted transition hover:border-cyan hover:text-cyan"
-            >
-              Limpiar studio
-            </button>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={resetToOriginal}
+                disabled={!previewUrl && !sourceUrl}
+                className="rounded-md border border-border px-4 py-2 text-sm font-semibold text-muted transition hover:border-cyan hover:text-cyan disabled:cursor-not-allowed disabled:opacity-45"
+              >
+                Volver al original
+              </button>
+              <button
+                type="button"
+                onClick={resetStudio}
+                className="rounded-md border border-border px-4 py-2 text-sm font-semibold text-muted transition hover:border-fuchsia hover:text-fuchsia"
+              >
+                Limpiar studio
+              </button>
+            </div>
           </div>
 
-          <div className="mt-5 grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
-            <div className="relative rounded-lg border border-border/70 bg-background p-3">
+          <div className="mt-5 flex flex-col gap-7 xl:flex-row xl:items-start">
+            <div className="relative h-fit rounded-lg border border-border/70 bg-background p-3 xl:w-[440px] xl:shrink-0">
               <canvas
                 ref={canvasRef}
-                className="aspect-[4/5] w-full rounded-md bg-surface-raised object-contain"
+                className="mx-auto max-h-[60vh] w-full rounded-md bg-surface-raised object-contain"
                 style={{
                   aspectRatio: `${canvasSize.width} / ${canvasSize.height}`,
                 }}
@@ -238,12 +329,10 @@ export function MediaStudio({
               ) : null}
             </div>
 
-            <div className="grid gap-4">
-              <label className="grid gap-2 text-sm font-medium">
-                Archivo local
+            <div className="grid gap-4 xl:max-w-[520px] xl:flex-1">
+              <label className={labelClass}>
+                Archivo local (se sube a la nube)
                 <input
-                  name="file"
-                  form={createFormId}
                   type="file"
                   accept="image/*"
                   onChange={(event) => handleLocalFile(event.target.files?.[0])}
@@ -251,7 +340,7 @@ export function MediaStudio({
                 />
               </label>
 
-              <label className="grid gap-2 text-sm font-medium">
+              <label className={labelClass}>
                 URL para guardar
                 <input
                   name="url"
@@ -267,7 +356,7 @@ export function MediaStudio({
                 />
               </label>
 
-              <label className="grid gap-2 text-sm font-medium">
+              <label className={labelClass}>
                 Texto alternativo
                 <input
                   value={alt}
@@ -276,7 +365,7 @@ export function MediaStudio({
                 />
               </label>
 
-              <label className="grid gap-2 text-sm font-medium">
+              <label className={labelClass}>
                 Caption
                 <input
                   value={caption}
@@ -285,9 +374,13 @@ export function MediaStudio({
                 />
               </label>
 
-              <div className="grid gap-2 text-sm font-medium">
-                Formato de recorte
-                <div className="grid grid-cols-4 gap-2">
+              <div className="grid gap-2 rounded-md border border-border/70 p-3">
+                <span className="text-sm font-medium">Formato de recorte</span>
+                <span className="text-xs text-muted">
+                  &quot;Original&quot; conserva las medidas reales de la imagen;
+                  los demas recortan al ratio elegido.
+                </span>
+                <div className="mt-1 grid grid-cols-3 gap-2">
                   {aspectOptions.map((option) => (
                     <button
                       key={option.value}
@@ -305,15 +398,19 @@ export function MediaStudio({
                 </div>
               </div>
 
-              <RangeControl
-                label="Zoom"
-                min={0.6}
-                max={2.6}
-                step={0.05}
-                value={settings.zoom}
-                suffix="x"
-                onChange={(value) => updateSetting("zoom", value)}
-              />
+              <div className="grid gap-3 rounded-md border border-border/70 p-3">
+                <span className="text-sm font-medium">
+                  Ajustes (encuadre y color)
+                </span>
+                <RangeControl
+                  label="Zoom"
+                  min={0.6}
+                  max={2.6}
+                  step={0.05}
+                  value={settings.zoom}
+                  suffix="x"
+                  onChange={(value) => updateSetting("zoom", value)}
+                />
               <RangeControl
                 label="Mover horizontal"
                 min={-100}
@@ -346,14 +443,15 @@ export function MediaStudio({
                 suffix="%"
                 onChange={(value) => updateSetting("contrast", value)}
               />
-              <RangeControl
-                label="Saturacion"
-                min={0}
-                max={180}
-                value={settings.saturation}
-                suffix="%"
-                onChange={(value) => updateSetting("saturation", value)}
-              />
+                <RangeControl
+                  label="Saturacion"
+                  min={0}
+                  max={180}
+                  value={settings.saturation}
+                  suffix="%"
+                  onChange={(value) => updateSetting("saturation", value)}
+                />
+              </div>
             </div>
           </div>
 
@@ -503,9 +601,10 @@ export function MediaStudio({
             registra la URL y conserva los ajustes editoriales del asset.
           </li>
         </ol>
-        <div className="mt-5 rounded-md border border-amber/25 bg-amber/10 p-4 text-sm leading-6 text-muted">
-          La subida directa a nube queda para la siguiente integracion. Este
-          studio ya evita encerrar imagenes pesadas dentro de la base de datos.
+        <div className="mt-5 rounded-md border border-acid/25 bg-acid/10 p-4 text-sm leading-6 text-muted">
+          La subida es directa del navegador a la nube (Vercel Blob), asi que
+          admite imagenes pesadas sin pasar por la base de datos ni por los
+          limites de las Server Actions.
         </div>
       </aside>
     </div>
@@ -530,7 +629,7 @@ function RangeControl({
   onChange: (value: number) => void;
 }) {
   return (
-    <label className="grid gap-2 text-sm font-medium">
+    <label className={labelClass}>
       <span className="flex items-center justify-between gap-4">
         {label}
         <span className="font-mono text-xs text-muted">

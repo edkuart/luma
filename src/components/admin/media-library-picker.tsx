@@ -1,6 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
+import {
+  GALLERY_ADD_EVENT,
+  type GalleryAddDetail,
+} from "@/components/admin/gallery-editor";
 import type { AdminMediaRow } from "@/lib/data/content";
 
 type MediaLibraryPickerProps = {
@@ -8,26 +13,22 @@ type MediaLibraryPickerProps = {
 };
 
 export function MediaLibraryPicker({ media }: MediaLibraryPickerProps) {
+  // En movil arranca colapsada (boton "Agregar desde Media"); en xl la columna
+  // lateral siempre esta visible.
+  const [expanded, setExpanded] = useState(false);
+
   function setAsCover(item: AdminMediaRow) {
     setInputValue("coverUrl", item.url);
     setInputValue("coverAlt", item.alt || item.caption);
   }
 
   function addToGallery(item: AdminMediaRow) {
-    const textarea = document.getElementById(
-      "gallery",
-    ) as HTMLTextAreaElement | null;
-    if (!textarea) {
-      return;
-    }
-
-    const line = [item.url, item.alt, item.caption]
-      .filter((value, index) => index === 0 || value)
-      .join(" | ");
-    textarea.value = textarea.value.trim()
-      ? `${textarea.value.trim()}\n${line}`
-      : line;
-    textarea.dispatchEvent(new Event("input", { bubbles: true }));
+    const detail: GalleryAddDetail = {
+      url: item.url,
+      alt: item.alt,
+      caption: item.caption,
+    };
+    window.dispatchEvent(new CustomEvent(GALLERY_ADD_EVENT, { detail }));
   }
 
   if (media.length === 0) {
@@ -39,18 +40,29 @@ export function MediaLibraryPicker({ media }: MediaLibraryPickerProps) {
   }
 
   return (
-    <section className="grid gap-4 rounded-lg border border-border bg-surface p-5">
-      <div>
-        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan">
-          Biblioteca media
-        </p>
-        <p className="mt-2 text-sm text-muted">
-          Usa una imagen guardada como portada o agregala a la galeria del
-          proyecto.
-        </p>
+    <section className="grid h-fit gap-4 rounded-2xl border border-border bg-surface p-5">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan">
+            Biblioteca media
+          </p>
+          <p className="mt-2 text-sm text-muted">
+            Usa una imagen como portada o agregala a la galeria.
+          </p>
+        </div>
+        <button
+          type="button"
+          aria-expanded={expanded}
+          onClick={() => setExpanded((value) => !value)}
+          className="shrink-0 rounded-full border border-border px-3 py-1.5 text-xs font-semibold text-muted transition hover:border-cyan hover:text-cyan xl:hidden"
+        >
+          {expanded ? "Ocultar" : "Agregar desde Media"}
+        </button>
       </div>
 
-      <div className="grid max-h-[560px] gap-3 overflow-auto pr-1 sm:grid-cols-2">
+      <div
+        className={`${expanded ? "grid" : "hidden"} max-h-[560px] gap-3 overflow-auto pr-1 sm:grid-cols-2 xl:grid`}
+      >
         {media.map((item) => (
           <article
             key={item.id}

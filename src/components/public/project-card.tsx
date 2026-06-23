@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import { CoverImage } from "@/components/public/cover-image";
 import { kindLabels, type DemoProject } from "@/lib/content/types";
 
 type ProjectCardProps = {
@@ -16,11 +16,11 @@ export function ProjectCard({ project, priority, large }: ProjectCardProps) {
         large ? "min-h-[460px]" : "min-h-[360px]"
       }`}
     >
-      {project.imageUrl ? (
-        <Image
+      {project.imageId || project.imageUrl ? (
+        <CoverImage
+          imageId={project.imageId}
           src={project.imageUrl}
           alt={project.imageAlt}
-          fill
           priority={priority}
           sizes={
             large

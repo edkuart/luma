@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import { CoverImage } from "@/components/public/cover-image";
 import { ProjectCard } from "@/components/public/project-card";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
@@ -33,10 +33,10 @@ export default async function Home() {
   return (
     <main>
       <section className="relative flex min-h-[86vh] items-end overflow-hidden px-5 pb-10 pt-28 sm:min-h-screen sm:px-8 lg:pb-16">
-        <Image
+        <CoverImage
+          imageId={heroProject.imageId}
           src={heroProject.imageUrl}
           alt={heroProject.imageAlt}
-          fill
           priority
           sizes="100vw"
           className="object-cover"
@@ -136,10 +136,10 @@ export default async function Home() {
         <section className="border-y border-border bg-surface py-20">
           <Container className="grid gap-8 lg:grid-cols-[1.25fr_0.75fr] lg:items-center">
             <Reveal className="relative min-h-[420px] overflow-hidden rounded-lg">
-              <Image
+              <CoverImage
+                imageId={featuredAlbum.imageId}
                 src={featuredAlbum.imageUrl}
                 alt={featuredAlbum.imageAlt}
-                fill
                 sizes="(min-width: 1024px) 60vw, 100vw"
                 className="object-cover"
               />
@@ -191,10 +191,10 @@ export default async function Home() {
             delay={120}
             className="relative min-h-[360px] overflow-hidden rounded-lg border border-white/10"
           >
-            <Image
+            <CoverImage
+              imageId={featuredShort.imageId}
               src={featuredShort.imageUrl}
               alt={featuredShort.imageAlt}
-              fill
               sizes="(min-width: 1024px) 55vw, 100vw"
               className="object-cover"
             />

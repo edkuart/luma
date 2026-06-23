@@ -1,13 +1,10 @@
+import { fieldClass, labelClass } from "@/components/admin/form-fields";
 import { getSiteSettings } from "@/lib/data/content";
 import { saveSiteSettingsAction } from "./actions";
 
 export const metadata = {
   title: "Settings admin",
 };
-
-const fieldClass =
-  "rounded-md border border-border bg-background px-3 py-2.5 text-sm outline-none transition focus:border-cyan";
-const labelClass = "grid gap-2 text-sm font-medium";
 
 export default async function AdminSettingsPage() {
   const settings = await getSiteSettings();

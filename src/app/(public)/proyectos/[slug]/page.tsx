@@ -1,12 +1,17 @@
 /// <reference types="react/canary" />
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ViewTransition } from "react";
+import { CoverImage } from "@/components/public/cover-image";
 import { MediaGrid } from "@/components/public/media-grid";
+import { VideoEmbed } from "@/components/public/video-embed";
 import { Container } from "@/components/ui/container";
 import { kindLabels } from "@/lib/content/types";
-import { getProjectBySlug, getProjects } from "@/lib/data/content";
+import {
+  getProjectBySlug,
+  getProjects,
+  getSiteSettings,
+} from "@/lib/data/content";
 
 type ProjectDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -36,7 +41,11 @@ export default async function ProjectDetailPage({
     notFound();
   }
 
-  const related = (await getProjects())
+  const [allProjects, settings] = await Promise.all([
+    getProjects(),
+    getSiteSettings(),
+  ]);
+  const related = allProjects
     .filter((item) => item.id !== project.id && item.kind === project.kind)
     .slice(0, 2);
 
@@ -44,10 +53,10 @@ export default async function ProjectDetailPage({
     <main>
       <section className="relative flex min-h-[78vh] items-end overflow-hidden px-5 pb-14 pt-28 sm:px-8">
         <ViewTransition name={`project-${project.slug}`}>
-          <Image
+          <CoverImage
+            imageId={project.imageId}
             src={project.imageUrl}
             alt={project.imageAlt}
-            fill
             priority
             sizes="100vw"
             className="object-cover"
@@ -109,7 +118,10 @@ export default async function ProjectDetailPage({
             <h2 className="mt-3 text-4xl font-semibold">Imagenes del proyecto</h2>
           </div>
         </div>
-        <MediaGrid items={project.gallery} />
+        <MediaGrid
+          items={project.gallery}
+          protection={settings.imageProtection}
+        />
       </Container>
 
       {project.videoUrl ? (
@@ -119,16 +131,9 @@ export default async function ProjectDetailPage({
               Video
             </p>
             <h2 className="mt-3 text-4xl font-semibold">Pieza audiovisual</h2>
-            <p className="mt-4 max-w-2xl text-muted">
-              En esta fase usamos un enlace demo. En backend se conectara el
-              proveedor definitivo de video o embed.
-            </p>
-            <Link
-              href={project.videoUrl}
-              className="mt-8 inline-flex rounded-full bg-acid px-6 py-3 text-sm font-semibold text-background"
-            >
-              Abrir referencia
-            </Link>
+            <div className="mt-8">
+              <VideoEmbed url={project.videoUrl} title={project.title} />
+            </div>
           </Container>
         </section>
       ) : null}

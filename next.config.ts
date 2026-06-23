@@ -5,6 +5,11 @@ const nextConfig: NextConfig = {
     viewTransition: true,
   },
   images: {
+    // El proxy de derivados sirve imagenes locales (con y sin ?wm=0).
+    localPatterns: [
+      { pathname: "/api/media/**", search: "" },
+      { pathname: "/api/media/**", search: "?wm=0" },
+    ],
     remotePatterns: [
       {
         protocol: "https",

@@ -18,6 +18,8 @@ export type DemoMedia = {
   caption: string;
   width: number;
   height: number;
+  /** Filtros de color (brillo/contraste/saturacion) aplicados en el render. */
+  filter?: string;
 };
 
 export type DemoProject = {
@@ -34,6 +36,8 @@ export type DemoProject = {
   tags: string[];
   imageUrl: string;
   imageAlt: string;
+  /** Id del media de portada, para servir el derivado protegido (/api/media/[id]). */
+  imageId?: string;
   gallery: DemoMedia[];
   videoUrl?: string;
   featured?: boolean;
@@ -49,6 +53,7 @@ export type DemoAlbum = {
   imageCount: number;
   imageUrl: string;
   imageAlt: string;
+  imageId?: string;
   tags: string[];
   gallery: DemoMedia[];
   featured?: boolean;
@@ -64,6 +69,7 @@ export type DemoShort = {
   year: number;
   imageUrl: string;
   imageAlt: string;
+  imageId?: string;
   role: string;
   tags: string[];
 };

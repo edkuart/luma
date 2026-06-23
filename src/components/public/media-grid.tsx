@@ -1,15 +1,17 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 import type { DemoMedia } from "@/lib/content/types";
+import type { ImageProtection } from "@/types/site-settings";
+import { ProtectedImage } from "./protected-image";
 import { Lightbox } from "./lightbox";
 
 type MediaGridProps = {
   items: DemoMedia[];
+  protection: ImageProtection;
 };
 
-export function MediaGrid({ items }: MediaGridProps) {
+export function MediaGrid({ items, protection }: MediaGridProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
@@ -25,14 +27,17 @@ export function MediaGrid({ items }: MediaGridProps) {
           >
             <figure>
               <div className="overflow-hidden">
-                <Image
-                  src={item.url}
+                <ProtectedImage
+                  src={`/api/media/${item.id}`}
                   alt={item.alt}
+                  protection={protection}
                   width={item.width}
                   height={item.height}
                   sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   priority={index < 2}
+                  wrapperClassName="overflow-hidden"
                   className="h-auto w-full object-cover transition-transform duration-[260ms] ease-fluid group-hover:scale-[1.04]"
+                  style={item.filter ? { filter: item.filter } : undefined}
                 />
               </div>
               <figcaption className="px-4 py-3 text-sm text-muted">
@@ -46,6 +51,7 @@ export function MediaGrid({ items }: MediaGridProps) {
       <Lightbox
         items={items}
         index={openIndex}
+        protection={protection}
         onClose={() => setOpenIndex(null)}
         onChange={setOpenIndex}
       />

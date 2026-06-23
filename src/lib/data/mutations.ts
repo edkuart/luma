@@ -15,6 +15,7 @@ import type { ProjectKind } from "@/lib/content/types";
 import type {
   HomeManualSelection,
   HomeSectionConfig,
+  ImageProtection,
   SiteTheme,
 } from "@/types/site-settings";
 import {
@@ -101,6 +102,7 @@ export type ProjectInput = {
   role: string;
   location: string;
   credits: string;
+  videoUrl: string;
   status: "draft" | "published" | "archived";
   isFeatured: boolean;
   sortOrder: number;
@@ -161,6 +163,7 @@ export async function createProject(input: ProjectInput) {
       role: input.role,
       location: input.location,
       credits: input.credits,
+      videoUrl: input.videoUrl || null,
       coverMediaId,
       status: input.status,
       isFeatured: input.isFeatured,
@@ -208,6 +211,7 @@ export async function updateProject(id: string, input: ProjectInput) {
       role: input.role,
       location: input.location,
       credits: input.credits,
+      videoUrl: input.videoUrl || null,
       coverMediaId,
       status: input.status,
       isFeatured: input.isFeatured,
@@ -497,6 +501,27 @@ export async function updateSiteSettings(input: SiteSettingsInput) {
   } else {
     await db.insert(siteSettings).values(values);
   }
+}
+
+export async function updateImageProtection(imageProtection: ImageProtection) {
+  const current = await db.query.siteSettings.findFirst({
+    columns: { id: true },
+  });
+
+  if (current) {
+    await db
+      .update(siteSettings)
+      .set({ imageProtection, updatedAt: new Date() })
+      .where(eq(siteSettings.id, current.id));
+    return;
+  }
+
+  await db.insert(siteSettings).values({
+    homeTitle: "Luz, imagen y memoria en movimiento.",
+    homeIntro:
+      "Un archivo visual para reunir fotografia, series artisticas y piezas audiovisuales.",
+    imageProtection,
+  });
 }
 
 export async function updateSiteTheme(theme: SiteTheme) {

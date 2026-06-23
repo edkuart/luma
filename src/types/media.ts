@@ -1,4 +1,4 @@
-export type CropAspect = "1:1" | "4:5" | "3:2" | "16:9";
+export type CropAspect = "original" | "1:1" | "4:5" | "3:2" | "16:9";
 
 export type MediaEditSettings = {
   cropAspect: CropAspect;

@@ -1,7 +1,7 @@
 import { ColorField } from "@/components/admin/color-field";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
 import { getSiteSettings } from "@/lib/data/content";
-import { mergeTheme } from "@/lib/theme";
+import { mergeImageProtection, mergeTheme } from "@/lib/theme";
 import { saveAppearanceAction } from "./actions";
 
 export const metadata = {
@@ -64,6 +64,7 @@ const colorFields = [
 export default async function AdminAppearancePage() {
   const settings = await getSiteSettings();
   const theme = mergeTheme(settings.theme);
+  const protection = mergeImageProtection(settings.imageProtection);
 
   return (
     <section className="px-5 py-8 sm:px-8">
@@ -119,6 +120,61 @@ export default async function AdminAppearancePage() {
               {theme.heroOverlay}% actual
             </span>
           </label>
+
+          <div className="grid gap-4 rounded-md border border-border/70 bg-background/40 p-4">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan">
+                Proteccion de imagenes
+              </p>
+              <p className="mt-2 text-sm text-muted">
+                Capas de disuasion para las galerias publicas. Ninguna es
+                infalible (siempre existe el screenshot), pero combinadas frenan
+                la copia casual.
+              </p>
+            </div>
+
+            <label className="flex items-start gap-3 text-sm">
+              <input
+                name="disableRightClick"
+                type="checkbox"
+                defaultChecked={protection.disableRightClick}
+                className="mt-0.5 size-4 rounded border-border"
+              />
+              <span>
+                <span className="block font-medium">
+                  Bloquear click derecho y arrastre
+                </span>
+                <span className="mt-1 block text-xs text-muted">
+                  Evita &quot;Guardar imagen&quot; y arrastrar la foto fuera.
+                </span>
+              </span>
+            </label>
+
+            <label className="flex items-start gap-3 text-sm">
+              <input
+                name="watermarkEnabled"
+                type="checkbox"
+                defaultChecked={protection.watermarkEnabled}
+                className="mt-0.5 size-4 rounded border-border"
+              />
+              <span>
+                <span className="block font-medium">Marca de agua</span>
+                <span className="mt-1 block text-xs text-muted">
+                  Superpone un texto repetido sobre las imagenes de galeria.
+                </span>
+              </span>
+            </label>
+
+            <label className="grid gap-2 text-sm font-medium">
+              Texto de la marca de agua
+              <input
+                name="watermarkText"
+                defaultValue={protection.watermarkText}
+                placeholder="© Nombre del artista"
+                className="rounded-md border border-border bg-background px-3 py-2.5 text-sm outline-none transition focus:border-cyan"
+              />
+            </label>
+          </div>
 
           <div>
             <button

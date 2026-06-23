@@ -18,6 +18,7 @@ import {
 import type {
   HomeManualSelection,
   HomeSectionConfig,
+  ImageProtection,
   SiteTheme,
 } from "@/types/site-settings";
 import type { MediaEditSettings } from "@/types/media";
@@ -98,6 +99,7 @@ export const projects = pgTable("projects", {
   role: text("role"),
   location: text("location"),
   credits: text("credits"),
+  videoUrl: text("video_url"),
   coverMediaId: uuid("cover_media_id").references(() => mediaAssets.id, {
     onDelete: "set null",
   }),
@@ -233,6 +235,14 @@ export const siteSettings = pgTable("site_settings", {
     acid: "#7cff4b",
     heroOverlay: 58,
   }),
+  imageProtection: jsonb("image_protection")
+    .$type<ImageProtection>()
+    .notNull()
+    .default({
+      disableRightClick: true,
+      watermarkEnabled: false,
+      watermarkText: "",
+    }),
   contactEmail: text("contact_email"),
   instagramUrl: text("instagram_url"),
   vimeoUrl: text("vimeo_url"),

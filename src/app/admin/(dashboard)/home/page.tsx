@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
+import { fieldClass, labelClass } from "@/components/admin/form-fields";
 import {
   getAdminAlbums,
   getAdminProjects,
@@ -10,10 +11,6 @@ import { saveHomeSettingsAction } from "./actions";
 export const metadata = {
   title: "Home admin",
 };
-
-const fieldClass =
-  "rounded-md border border-border bg-background px-3 py-2.5 text-sm outline-none transition focus:border-cyan";
-const labelClass = "grid gap-2 text-sm font-medium";
 
 function SelectOption({
   value,

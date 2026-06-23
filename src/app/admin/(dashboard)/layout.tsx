@@ -14,7 +14,7 @@ export default function AdminDashboardLayout({
     <div className="min-h-screen bg-background text-foreground">
       <div className="grid min-h-screen lg:grid-cols-[280px_1fr]">
         <AdminSidebar adminEmail={adminEmail} />
-        <main>
+        <main className="min-w-0">
           <AdminMobileNav adminEmail={adminEmail} />
           {children}
         </main>

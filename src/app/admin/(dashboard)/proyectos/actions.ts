@@ -18,6 +18,7 @@ import {
 function revalidateProjects() {
   revalidatePath("/admin/proyectos");
   revalidatePath("/proyectos");
+  revalidatePath("/proyectos/[slug]", "page");
   revalidatePath("/cortos");
   revalidatePath("/");
 }
@@ -33,6 +34,7 @@ function readProjectInput(formData: FormData): ProjectInput {
     role: String(formData.get("role") ?? "").trim(),
     location: String(formData.get("location") ?? "").trim(),
     credits: String(formData.get("credits") ?? "").trim(),
+    videoUrl: String(formData.get("videoUrl") ?? "").trim(),
     status: (String(formData.get("status") ?? "draft") as
       | "draft"
       | "published"

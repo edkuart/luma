@@ -1,29 +1,15 @@
 import Link from "next/link";
-import { saveProjectAction } from "@/app/admin/proyectos/actions";
+import { saveProjectAction } from "@/app/admin/(dashboard)/proyectos/actions";
+import { adminButton } from "@/components/admin/admin-button";
+import { CoverUpload, UploadToInput } from "@/components/admin/cover-upload";
+import { fieldClass, labelClass } from "@/components/admin/form-fields";
+import { GalleryEditor } from "@/components/admin/gallery-editor";
 import { MediaLibraryPicker } from "@/components/admin/media-library-picker";
 import { kindLabels } from "@/lib/content/types";
 import type { AdminMediaRow, getAdminProjectById } from "@/lib/data/content";
+import { galleryToText } from "@/lib/admin/gallery-text";
 
 type ProjectRow = NonNullable<Awaited<ReturnType<typeof getAdminProjectById>>>;
-
-const fieldClass =
-  "rounded-md border border-border bg-background px-3 py-2.5 text-sm outline-none transition focus:border-cyan";
-const labelClass = "grid gap-2 text-sm font-medium";
-
-function galleryToText(media: ProjectRow["media"]) {
-  return [...media]
-    .sort((a, b) => a.sortOrder - b.sortOrder)
-    .map((m) =>
-      [
-        m.media.publicUrl ?? m.media.externalUrl ?? "",
-        m.media.alt ?? "",
-        m.media.caption ?? "",
-      ]
-        .join(" | ")
-        .replace(/(\s\|\s)+$/, ""),
-    )
-    .join("\n");
-}
 
 export function ProjectForm({
   project,
@@ -133,6 +119,31 @@ export function ProjectForm({
           />
         </label>
 
+        <div className="grid gap-2">
+          <label className={labelClass}>
+            Video (cortometraje)
+            <input
+              id="videoUrl"
+              name="videoUrl"
+              type="url"
+              defaultValue={project?.videoUrl ?? ""}
+              placeholder="https://vimeo.com/… o https://youtu.be/… o un .mp4"
+              className={fieldClass}
+            />
+          </label>
+          <div className="flex items-center gap-3">
+            <UploadToInput
+              targetId="videoUrl"
+              label="Subir video"
+              accept="video/*"
+            />
+            <p className="text-xs text-muted">
+              Recomendado: pega un enlace de Vimeo/YouTube (mejor streaming y
+              control de descarga). Tambien puedes subir un archivo de video.
+            </p>
+          </div>
+        </div>
+
         <div className="grid gap-5 sm:grid-cols-2">
           <label className={labelClass}>
             URL de portada
@@ -154,6 +165,7 @@ export function ProjectForm({
             />
           </label>
         </div>
+        <CoverUpload />
 
         <label className={labelClass}>
           Tags (separados por coma)
@@ -164,16 +176,9 @@ export function ProjectForm({
           />
         </label>
 
-        <label className={labelClass}>
-          Galeria (una por linea: url | alt | caption)
-          <textarea
-            id="gallery"
-            name="gallery"
-            rows={5}
-            defaultValue={project ? galleryToText(project.media) : ""}
-            className={`${fieldClass} font-mono text-xs`}
-          />
-        </label>
+        <GalleryEditor
+          initialValue={project ? galleryToText(project.media) : ""}
+        />
 
         <div className="grid gap-5 sm:grid-cols-3">
           <label className={labelClass}>
@@ -209,16 +214,10 @@ export function ProjectForm({
         </div>
 
         <div className="mt-2 flex items-center gap-3">
-          <button
-            type="submit"
-            className="rounded-md bg-fuchsia px-5 py-3 text-sm font-semibold text-white transition hover:brightness-110"
-          >
+          <button type="submit" className={adminButton("primary", { shape: "square" })}>
             {project ? "Guardar cambios" : "Crear proyecto"}
           </button>
-          <Link
-            href="/admin/proyectos"
-            className="rounded-md border border-border px-5 py-3 text-sm font-semibold text-muted transition hover:text-foreground"
-          >
+          <Link href="/admin/proyectos" className={adminButton("ghost", { shape: "square" })}>
             Cancelar
           </Link>
         </div>

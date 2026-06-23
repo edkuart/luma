@@ -1,3 +1,4 @@
+import { labelClass } from "@/components/admin/form-fields";
 import { loginAction } from "../actions";
 
 export const metadata = {
@@ -54,7 +55,7 @@ export default async function AdminLoginPage({
             <form action={loginAction} className="mt-8 grid gap-5">
               <input type="hidden" name="next" value={nextPath} />
 
-              <label className="grid gap-2 text-sm font-medium">
+              <label className={labelClass}>
                 Correo admin
                 <input
                   className="rounded-md border border-border bg-background px-3 py-3 text-sm outline-none transition focus:border-cyan"
@@ -66,7 +67,7 @@ export default async function AdminLoginPage({
                 />
               </label>
 
-              <label className="grid gap-2 text-sm font-medium">
+              <label className={labelClass}>
                 Contrasena
                 <input
                   className="rounded-md border border-border bg-background px-3 py-3 text-sm outline-none transition focus:border-cyan"

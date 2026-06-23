@@ -1,5 +1,17 @@
 import type { CSSProperties } from "react";
-import type { SiteTheme } from "@/types/site-settings";
+import type { ImageProtection, SiteTheme } from "@/types/site-settings";
+
+export const defaultImageProtection: ImageProtection = {
+  disableRightClick: true,
+  watermarkEnabled: false,
+  watermarkText: "",
+};
+
+export function mergeImageProtection(
+  value?: Partial<ImageProtection> | null,
+): ImageProtection {
+  return { ...defaultImageProtection, ...(value ?? {}) };
+}
 
 export const defaultTheme: SiteTheme = {
   background: "#0b0a12",

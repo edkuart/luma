@@ -1,23 +1,22 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { adminButton } from "@/components/admin/admin-button";
 
 type AdminPageHeaderProps = {
   eyebrow: string;
   title: string;
   description?: string;
-  /** Accion principal. Con `href` es un enlace; sin el, queda "Pronto". */
+  /** Accion principal a la derecha (enlace). */
   action?: {
     label: string;
-    href?: string;
+    href: string;
   };
   children?: ReactNode;
 };
 
 /**
  * Encabezado consistente para las pantallas del admin: eyebrow, titulo,
- * descripcion y una accion opcional a la derecha. La accion es visual (el CRUD
- * real llega en una fase posterior), por eso se muestra deshabilitada con la
- * etiqueta "Pronto".
+ * descripcion y una accion principal opcional a la derecha.
  */
 export function AdminPageHeader({
   eyebrow,
@@ -37,26 +36,10 @@ export function AdminPageHeader({
           <p className="mt-3 max-w-2xl text-muted">{description}</p>
         ) : null}
       </div>
-      {action?.href ? (
-        <Link
-          href={action.href}
-          className="inline-flex shrink-0 items-center gap-2 rounded-full bg-fuchsia px-5 py-3 text-sm font-semibold text-white transition hover:brightness-110"
-        >
+      {action ? (
+        <Link href={action.href} className={`${adminButton("primary")} shrink-0`}>
           {action.label}
         </Link>
-      ) : action ? (
-        <button
-          type="button"
-          disabled
-          aria-disabled="true"
-          title="Disponible en una fase posterior"
-          className="inline-flex shrink-0 items-center gap-2 rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-muted"
-        >
-          {action.label}
-          <span className="rounded-full bg-surface-raised px-2 py-0.5 text-[10px] uppercase tracking-[0.18em] text-amber">
-            Pronto
-          </span>
-        </button>
       ) : null}
       {children}
     </div>

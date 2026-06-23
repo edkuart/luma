@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import { CoverImage } from "@/components/public/cover-image";
 import type { DemoAlbum } from "@/lib/content/types";
 
 type AlbumCardProps = {
@@ -14,11 +14,11 @@ export function AlbumCard({ album, priority }: AlbumCardProps) {
       className="group grid overflow-hidden rounded-lg border border-white/10 bg-surface transition-colors duration-[180ms] ease-fluid hover:border-cyan/30 md:grid-cols-[0.9fr_1fr]"
     >
       <div className="relative min-h-[320px] overflow-hidden">
-        {album.imageUrl ? (
-          <Image
+        {album.imageId || album.imageUrl ? (
+          <CoverImage
+            imageId={album.imageId}
             src={album.imageUrl}
             alt={album.imageAlt}
-            fill
             priority={priority}
             sizes="(min-width: 768px) 45vw, 100vw"
             className="object-cover transition-transform duration-[420ms] ease-fluid group-hover:scale-105"

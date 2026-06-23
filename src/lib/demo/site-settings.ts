@@ -66,4 +66,9 @@ export const demoSiteSettings: SiteSettings = {
     acid: "#7cff4b",
     heroOverlay: 58,
   },
+  imageProtection: {
+    disableRightClick: true,
+    watermarkEnabled: false,
+    watermarkText: "",
+  },
 };

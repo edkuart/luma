@@ -1,11 +1,15 @@
 /// <reference types="react/canary" />
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ViewTransition } from "react";
+import { CoverImage } from "@/components/public/cover-image";
 import { MediaGrid } from "@/components/public/media-grid";
 import { Container } from "@/components/ui/container";
-import { getAlbumBySlug, getAlbums } from "@/lib/data/content";
+import {
+  getAlbumBySlug,
+  getAlbums,
+  getSiteSettings,
+} from "@/lib/data/content";
 
 type AlbumDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -33,7 +37,10 @@ export default async function AlbumDetailPage({ params }: AlbumDetailPageProps) 
     notFound();
   }
 
-  const albums = await getAlbums();
+  const [albums, settings] = await Promise.all([
+    getAlbums(),
+    getSiteSettings(),
+  ]);
   const currentIndex = albums.findIndex((item) => item.id === album.id);
   const previous = albums[currentIndex - 1];
   const next = albums[currentIndex + 1];
@@ -42,10 +49,10 @@ export default async function AlbumDetailPage({ params }: AlbumDetailPageProps) 
     <main>
       <section className="relative flex min-h-[72vh] items-end overflow-hidden px-5 pb-14 pt-28 sm:px-8">
         <ViewTransition name={`album-${album.slug}`}>
-          <Image
+          <CoverImage
+            imageId={album.imageId}
             src={album.imageUrl}
             alt={album.imageAlt}
-            fill
             priority
             sizes="100vw"
             className="object-cover"
@@ -76,7 +83,7 @@ export default async function AlbumDetailPage({ params }: AlbumDetailPageProps) 
             </span>
           ))}
         </div>
-        <MediaGrid items={album.gallery} />
+        <MediaGrid items={album.gallery} protection={settings.imageProtection} />
       </Container>
 
       <Container as="section" className="flex flex-col gap-4 pb-20 md:flex-row md:justify-between">
