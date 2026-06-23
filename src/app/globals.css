@@ -101,15 +101,49 @@ img {
   background: transparent;
 }
 
-/* Auto-ocultable: invisible en reposo; aparece al pasar el cursor o
-   mientras se hace scroll (.is-scrolling lo agrega ScrollbarAutoHide). */
+/* Scrollbar global: fina, redondeada y tematizada (sustituye la gruesa del SO). */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-rest) transparent;
+}
+
+::-webkit-scrollbar {
+  width: var(--scrollbar-size);
+  height: var(--scrollbar-size);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-rest);
+  /* El borde transparente deja "aire" y hace el thumb fino y flotante. */
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Contenedores auto-ocultables (sidebar/drawer/listas): invisibles en reposo;
+   aparecen al pasar el cursor o mientras se hace scroll (.is-scrolling lo
+   agrega ScrollbarAutoHide). El color sale del acento -> se difumina al
+   cambiar el tema en Apariencia. */
 .luma-scroll {
   scrollbar-color: transparent transparent;
-  transition: scrollbar-color var(--duration-base) var(--ease-fluid);
+  transition: scrollbar-color var(--duration-slow) var(--ease-fluid);
 }
 
 .luma-scroll::-webkit-scrollbar-thumb {
-  background: transparent;
+  background-color: transparent;
+  transition: background-color var(--duration-slow) var(--ease-fluid);
 }
 
 .luma-scroll:hover,
@@ -119,14 +153,19 @@ img {
 
 .luma-scroll:hover::-webkit-scrollbar-thumb,
 .luma-scroll.is-scrolling::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb);
-  background-clip: padding-box;
+  background-color: var(--scrollbar-thumb);
 }
 
 .luma-scroll:hover::-webkit-scrollbar-thumb:hover,
 .luma-scroll.is-scrolling::-webkit-scrollbar-thumb:hover {
-  background: var(--scrollbar-thumb-hover);
-  background-clip: padding-box;
+  background-color: var(--scrollbar-thumb-hover);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .luma-scroll,
+  .luma-scroll::-webkit-scrollbar-thumb {
+    transition: none;
+  }
 }
 
 /* Reveal al hacer scroll (IntersectionObserver agrega .is-visible) */
